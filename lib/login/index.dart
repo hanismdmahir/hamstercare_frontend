@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/setting/setting.dart';
 
 void main() => runApp(
   MaterialApp(
@@ -8,9 +9,20 @@ void main() => runApp(
 );
 
 class LoginPage extends StatelessWidget {
+
+static final TextEditingController _user = new TextEditingController();
+ static final TextEditingController _pass = new TextEditingController();
+
+ String get username => _user.text;
+ String get password => _pass.text;
+
+
+ final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -19,7 +31,7 @@ class LoginPage extends StatelessWidget {
             colors: [
               Colors.orange[900],
               Colors.orange[800],
-             // Colors.orange[400]  ni kalau nak orange cair kat bawah 
+              Colors.orange[400]  //ni kalau nak orange cair kat bawah 
             ]
           )
         ),
@@ -68,7 +80,7 @@ class LoginPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         border: Border(bottom:BorderSide(color:Colors.grey[200]))
                         ),
-                      child: TextField(
+                      child: TextField(controller: _user,
                         decoration: InputDecoration(
                           hintText: "Username",
                           hintStyle: TextStyle(color:Colors.grey),
@@ -81,12 +93,13 @@ class LoginPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         border: Border(bottom:BorderSide(color:Colors.grey[200]))
                         ),
-                      child: TextField(
+                     child: TextField(
+                        controller: _pass,
                         decoration: InputDecoration(
                           hintText: "Password",
                           hintStyle: TextStyle(color:Colors.grey),
                           border:InputBorder.none
-                        ),
+                        ), obscureText: true,
                       ),
                     ),
                 ],),),
@@ -101,10 +114,22 @@ class LoginPage extends StatelessWidget {
                         color: Colors.white
                       ),
                       child: Center(
-                        child: Text("Login", style: TextStyle(color:Colors.orange, fontWeight: FontWeight.bold) 
-                    ),
-                    ),
-                    ),
+                        
+                        child: FlatButton(child: Text ("Login", style: TextStyle(color:Colors.orange, fontWeight: FontWeight.bold)), 
+                         onPressed: (){
+                            if(username =="user" && password =="pass"){
+                           Navigator.push(context, MaterialPageRoute(builder: (context)=>Setting(),
+                           // _showSnackBar
+                            ));
+                            
+                              }
+                              else{
+                                scaffoldKey.currentState.showSnackBar(new SnackBar(content: new Text("Your Username or Password Are Wrong!")));
+                              }
+                         }
+                                         
+                        )
+                    ),),
                     SizedBox(height: 40,),
                     Text("Don't have a account? Sign Up here", style: TextStyle(color:Colors.black87)),
                      ],
