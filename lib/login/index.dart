@@ -114,7 +114,7 @@ static final TextEditingController _user = new TextEditingController();
                         color: Colors.white
                       ),
                       child: Center(
-                        
+                        //ko
                         child: FlatButton(child: Text ("Login", style: TextStyle(color:Colors.orange, fontWeight: FontWeight.bold)), 
                          onPressed: (){
                             if(username =="user" && password =="pass"){
