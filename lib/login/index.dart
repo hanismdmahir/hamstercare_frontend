@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hamstercare/setting/setting.dart';
+import 'package:hamstercare/userProfile/userProfile.dart';
 
 void main() => runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => Setting(),
+                                            builder: (context) => ProfilePage(),
                                             // _showSnackBar
                                           ));
                                     } else {

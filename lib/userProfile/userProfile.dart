@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class TestProfilePage extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<TestProfilePage> {
+class _ProfilePageState extends State<ProfilePage> {
   int _currentIndex = 4;
 
   @override
