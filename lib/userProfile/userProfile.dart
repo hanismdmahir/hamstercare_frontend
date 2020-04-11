@@ -14,6 +14,7 @@ class _ProfilePageState extends State<TestProfilePage> {
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
       body: buildListView(),
+      bottomNavigationBar: buildBottomNavigationBar(),
     );
   }
 
@@ -342,4 +343,39 @@ class _ProfilePageState extends State<TestProfilePage> {
     );
   }
 
+   BottomNavigationBar buildBottomNavigationBar() {
+    return BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        currentIndex: _currentIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.photo_library),
+            title: Text('Feed'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.question_answer),
+            title: Text('QnA'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_box),
+            title: Text('Add'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications_none),
+            title: Text('Reminder'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.perm_identity),
+            title: Text('Profile'),
+          ),
+        ],
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        });
+  }
 }
+
+
