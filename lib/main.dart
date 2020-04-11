@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login/index.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,6 +13,9 @@ class MyApp extends StatelessWidget {
       primarySwatch: Colors.blue,
       ),
       home: SplashScreen(),
+      routes: <String, WidgetBuilder>{
+      '/LoginPage': (BuildContext context) => new LoginPage(),
+      },
     );
   }
 }
@@ -26,9 +30,10 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(Duration(seconds: 5), () {
       Navigator.pushReplacement(
+          
           context,
           MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => LoginPage(),
           ));
     });
   }
@@ -43,17 +48,6 @@ class _SplashScreenState extends State<SplashScreen> {
             fit: BoxFit.fill),
          ),
        ), 
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("Home Page"),
-      ),
     );
   }
 }
