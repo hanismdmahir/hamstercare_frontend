@@ -15,7 +15,14 @@ class _ProfilePageState extends State<TestProfilePage> {
       appBar: buildAppBar(),
       body: buildListView(),
       bottomNavigationBar: buildBottomNavigationBar(),
+      endDrawer: buildEndDrawer(),
     );
+  }
+
+   Drawer buildEndDrawer() {
+    return Drawer(
+        //setting tiqah
+        );
   }
 
   AppBar buildAppBar() {
