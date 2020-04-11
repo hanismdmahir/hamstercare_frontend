@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hamstercare/userProfile/userProfile.dart';
 
-void main() => runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: LoginPage(),
-    ));
 
 class LoginPage extends StatefulWidget {
   static final TextEditingController _user = new TextEditingController();
