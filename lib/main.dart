@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/login/signup.dart';
 import 'login/index.dart';
 
 void main() => runApp(MyApp());
@@ -13,7 +14,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
       primarySwatch: Colors.blue,
       ),
-      home: SplashScreen(),
+      //home: SplashScreen(),
+      home: SignUp(),
       routes: <String, WidgetBuilder>{
       '/LoginPage': (BuildContext context) => new LoginPage(),
       },
