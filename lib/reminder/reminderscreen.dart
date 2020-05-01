@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/reminder/addreminderscreen.dart';
 
 class ReminderScreen extends StatelessWidget {
   @override
@@ -48,7 +49,10 @@ class ReminderScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         
-        onPressed: null,
+        onPressed: (){
+          showDialog(context: context,
+          builder:(context)=>AddReminderScreen());
+        },
         backgroundColor: Colors.white,
         label: Text(
           'Add',

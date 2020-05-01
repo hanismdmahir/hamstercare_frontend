@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hamstercare/feed/feed.dart';
 import 'package:hamstercare/login/signup.dart';
+import 'package:hamstercare/reminder/addreminderscreen.dart';
 import 'package:hamstercare/reminder/reminderscreen.dart';
 import 'login/index.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       //home: SignUp(),
      // home: FeedNews(),
      home: ReminderScreen(),
+    // home: AddReminderScreen(),
       routes: <String, WidgetBuilder>{
       '/LoginPage': (BuildContext context) => new LoginPage(),
       },
