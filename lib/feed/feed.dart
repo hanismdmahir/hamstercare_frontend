@@ -10,6 +10,7 @@ class _FeedNewsState extends State<FeedNews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     
       backgroundColor: Colors.white,
       bottomNavigationBar: buildBottomNavigationBar(),
       // appBar: AppBar(
@@ -145,8 +146,10 @@ class _FeedNewsState extends State<FeedNews> {
   }
   Widget makeFeed({userName, userImage, feedTime, feedText, feedImage, like, comment}) {
     return Container(
+      
       margin: EdgeInsets.only(bottom: 20),
       child: Column(
+        
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
@@ -154,6 +157,7 @@ class _FeedNewsState extends State<FeedNews> {
             children: <Widget>[
               Row(
                 children: <Widget>[
+                  
                   Container(
                     width: 50,
                     height: 50,
@@ -162,7 +166,7 @@ class _FeedNewsState extends State<FeedNews> {
                       image: DecorationImage(
                         image: AssetImage(userImage),
                         fit: BoxFit.cover
-                      )
+                      ),
                     ),
                   ),
                   SizedBox(width: 10,),
@@ -231,6 +235,7 @@ class _FeedNewsState extends State<FeedNews> {
   }
   Widget makeShareButton() {
     return Container(
+      width: 12,
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey[200]),
@@ -238,12 +243,15 @@ class _FeedNewsState extends State<FeedNews> {
       ),
       height: 30,
       child: Center(
+        
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            
             Icon(Icons.share, color: Colors.grey, size: 18),
             //SizedBox(width: ,),
             FlatButton(
+            
               onPressed: null,
               child: Text("Share", style: TextStyle(color: Colors.grey),), 
             ),
@@ -278,7 +286,7 @@ class _FeedNewsState extends State<FeedNews> {
   }
   Widget makeLikeButton({isActive}) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey[200]),
         borderRadius: BorderRadius.circular(50),
@@ -289,7 +297,7 @@ class _FeedNewsState extends State<FeedNews> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(Icons.thumb_up, color: isActive ? Colors.blue : Colors.grey, size: 18,),
-           // SizedBox(width: 3,),
+        // SizedBox(width: 3,),
             FlatButton(
             onPressed: null, 
             child: Text("Like", style: TextStyle(color: isActive ? Colors.blue : Colors.grey),),
