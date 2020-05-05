@@ -3,6 +3,8 @@ import 'package:hamstercare/feed/feed.dart';
 import 'package:hamstercare/login/signup.dart';
 import 'package:hamstercare/reminder/addreminderscreen.dart';
 import 'package:hamstercare/reminder/reminderscreen.dart';
+import 'package:hamstercare/testing.dart';
+import 'package:hamstercare/userProfile/userProfile.dart';
 import 'login/index.dart';
 
 void main() => runApp(MyApp());
@@ -18,10 +20,11 @@ class MyApp extends StatelessWidget {
       primarySwatch: Colors.blue,
       ),
       //home: SplashScreen(),
+      home: ProfilePage(),
       //home: SignUp(),
      // home: FeedNews(),
-     home: ReminderScreen(),
-    // home: AddReminderScreen(),
+     //home: ReminderScreen(),
+      //home: AddReminderScreen(),
       routes: <String, WidgetBuilder>{
       '/LoginPage': (BuildContext context) => new LoginPage(),
       },

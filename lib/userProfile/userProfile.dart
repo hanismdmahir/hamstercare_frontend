@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hamstercare/login/index.dart';
+import 'package:hamstercare/models/mock_user.dart';
+import 'package:hamstercare/models/user.dart';
 
 final Color darkBlue = Color.fromARGB(255, 18, 32, 47);
 
@@ -10,6 +12,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  User user = mockUser[0];
   int _currentIndex = 4;
   bool _noti = false;
   get noti => _noti;
@@ -47,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Container(
                     padding: EdgeInsets.all(10.0),
                     child: Text(
-                      'user999',
+                      user.username,
                       style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.white,
@@ -159,7 +162,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         maxLength: 10,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'New Username',
+                          labelText: user.username,
                         ),
                       ),
                       actions: <Widget>[
@@ -195,7 +198,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'New Password',
+                          labelText: user.password,
                         ),
                       ),
                       actions: <Widget>[
@@ -230,7 +233,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       content: TextField(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'New Email',
+                          labelText: user.email,
                         ),
                       ),
                       actions: <Widget>[
@@ -294,7 +297,6 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: Colors.orange,
       leading: Icon(Icons.announcement),
       title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text('HamsterCare'),
         ],
@@ -309,7 +311,9 @@ class _ProfilePageState extends State<ProfilePage> {
       // profile pic n else
       Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(children: <Widget>[
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
             buildProfileInfo(),
 
             SizedBox(
@@ -335,69 +339,31 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 5,
             ),
 
-            buildGallery(), //gallery
+           buildGallery() //gallery
+             
           ])),
     ]);
   }
 
-  
-  Row buildGallery() {
-    return Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Column(children: <Widget>[
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Column(children: <Widget>[
-                  Container(
-                    child: Image.asset('assets/h1.jpg',
-                        width: 100, height: 100, fit: BoxFit.cover),
-                  ),
-                ]),
-                Column(children: <Widget>[
-                  Container(
-                    child: Image.asset('assets/h2.jpg',
-                        width: 100, height: 100, fit: BoxFit.cover),
-                  ),
-                ]),
-                Column(children: <Widget>[
-                  Container(
-                    child: Image.asset('assets/h3.jpg',
-                        width: 100, height: 100, fit: BoxFit.cover),
-                  ),
-                ]),
-              ],
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Column(children: <Widget>[
-                  Container(
-                    child: Image.asset('assets/h4.jpg',
-                        width: 100, height: 100, fit: BoxFit.cover),
-                  ),
-                ]),
-                Column(children: <Widget>[
-                  Container(
-                    child: Image.asset('assets/h5.jpg',
-                        width: 100, height: 100, fit: BoxFit.cover),
-                  ),
-                ]),
-                Column(children: <Widget>[
-                  Container(
-                    child: Image.asset('assets/h6.jpg',
-                        width: 100, height: 100, fit: BoxFit.cover),
-                  ),
-                ]),
-              ],
-            ),
-          ]),
-        ]);
+  GridView buildGallery() {
+    return GridView.builder(
+               shrinkWrap: true,
+               physics: ScrollPhysics(),
+               itemCount: user.photoUrl.length,
+               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                 crossAxisCount: 3,
+                 crossAxisSpacing: 2,
+                 mainAxisSpacing: 2,
+                 childAspectRatio: 1,
+               ),
+               itemBuilder: (context, index) => Container(
+                  margin: EdgeInsets.all(2.0),
+                  color: Colors.black,
+                  child: Image.asset(user.photoUrl[index].photoUrl, width: 100, height: 100, fit: BoxFit.cover),
+               )                
+              );
   }
+
 
   SingleChildScrollView buildPetAvatar() {
     return SingleChildScrollView(
