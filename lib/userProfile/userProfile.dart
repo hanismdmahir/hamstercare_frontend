@@ -326,7 +326,9 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 20,
             ),
 
+            
             buildPetAvatar(), //pet avatar
+
             SizedBox(
               height: 10,
             ),
@@ -343,6 +345,52 @@ class _ProfilePageState extends State<ProfilePage> {
              
           ])),
     ]);
+  }
+
+  SizedBox buildPetAvatar() {
+    return SizedBox(
+            height: 110,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: user.pet.length+1,
+              itemBuilder: (context,index) => Container(
+                margin: EdgeInsets.all(10),
+                child: (index == 0) 
+                ? GestureDetector(
+                  onTap: null,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                border: Border.all(width: 3, color: Colors.black)),
+                            child: Icon(
+                              Icons.add,
+                              size: 56,
+                              color: Colors.black,
+                            ),
+                          ),
+                      SizedBox(height: 5,),
+                      Text("Add")
+                    ],
+                  ),
+            )
+                  
+                : Column(
+                  children: <Widget>[
+                    CircleAvatar(
+                            
+                            radius: 30.0,
+                            backgroundColor: Colors.grey,
+                            backgroundImage: AssetImage(user.pet[index-1].photo),
+                          ),
+                    SizedBox(height: 6,),
+                    Text(user.pet[index-1].name)    
+                  ],
+                ),
+              )
+              ),
+          );
   }
 
   GridView buildGallery() {
@@ -362,104 +410,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Image.asset(user.photoUrl[index].photoUrl, width: 100, height: 100, fit: BoxFit.cover),
                )                
               );
-  }
-
-
-  SingleChildScrollView buildPetAvatar() {
-    return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.grey,
-                          ),
-                        ),
-                        child: IconButton(
-                            icon: Icon(Icons.add_circle_outline),
-                            iconSize: 60,
-                            padding: const EdgeInsets.all(0),
-                            onPressed: null),
-                      ),
-                    ],
-                  ),
-                  
-                  SizedBox(height: 5,),
-
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text('Add '),
-                    ],
-                  ),
-                ],
-              ),
-
-              SizedBox(width: 5,),
-
-              Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 30.0,
-                        backgroundColor: Colors.grey,
-                        backgroundImage: AssetImage('assets/h2.jpg'),
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 5,),
-
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text('Hachi')
-                      ],
-                  ),
-                ],
-              ),
-
-              SizedBox(width: 5,),
-
-              Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 30.0,
-                        backgroundColor: Colors.grey,
-                        backgroundImage: AssetImage('assets/h3.jpg'),
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 5,),
-
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[Text('Horlick')],
-                  ),
-                ],
-              ),
-            ]));
   }
 
   Row buildProfileBio() {
