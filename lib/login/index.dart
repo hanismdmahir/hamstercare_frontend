@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/userProfile/userProfile.dart';
 
 class LoginPage extends StatefulWidget {
@@ -122,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ProfilePage(),
+                                    builder: (context) => ProfilePage(mockUser[0]),
 
                                     // _showSnackBar
                                   ));

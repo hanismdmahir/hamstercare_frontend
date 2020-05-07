@@ -6,13 +6,51 @@ import 'package:hamstercare/models/user.dart';
 final Color darkBlue = Color.fromARGB(255, 18, 32, 47);
 
 class ProfilePage extends StatefulWidget {
-
+  final User user;
+  ProfilePage(this.user);
+  
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  User user = mockUser[0];
+  final _bio = TextEditingController();
+  final _username = TextEditingController();
+  final _password = TextEditingController();
+  final _email = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    _bio.dispose();
+    _username.dispose();
+    super.dispose();
+  }
+
+  void _bioState(String bio){
+    User _user = User.copy(widget.user);
+    _user.bio = bio;
+    widget.user.bio = _user.bio;
+  }
+
+  void _usernameState(String username){
+    User _user = User.copy(widget.user);
+    _user.username = username;
+    widget.user.username = _user.username;
+  }
+
+  void _passwordState(String password){
+    User _user = User.copy(widget.user);
+    _user.password = password;
+    widget.user.password = _user.password;
+  }
+
+  void _emailState(String email){
+    User _user = User.copy(widget.user);
+    _user.email = email;
+    widget.user.email = _user.email;
+  }
+
   int _currentIndex = 4;
   bool _noti = false;
   get noti => _noti;
@@ -44,13 +82,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: CircleAvatar(
                       radius: 50.0,
                       backgroundColor: Colors.grey,
-                      backgroundImage: AssetImage('assets/photo4.jpg'),
+                      backgroundImage: AssetImage(widget.user.profilephoto),
                     ),
                   ),
                   Container(
                     padding: EdgeInsets.all(10.0),
                     child: Text(
-                      user.username,
+                      widget.user.username,
                       style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.white,
@@ -121,25 +159,29 @@ class _ProfilePageState extends State<ProfilePage> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text("Bio"),
+                      title: Text("New Bio"),
                       content: TextField(
+                        controller: _bio ,
                         maxLength: 50,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'New Bio',
+                          hintText: widget.user.bio,
                         ),
                       ),
                       actions: <Widget>[
                         FlatButton(
                           child: Text('Save'),
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            _bioState(_bio.text);
+                            _bio.clear();
+                            Navigator.of(context).pop(widget.user.bio);
                           },
                         ),
                         FlatButton(
                             child: Text('Cancel'),
                             onPressed: () {
-                              Navigator.of(context).pop();
+                              _bio.clear();
+                              Navigator.of(context).pop(null);
                             }),
                       ],
                     );
@@ -157,25 +199,29 @@ class _ProfilePageState extends State<ProfilePage> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text("Username"),
+                      title: Text("New Username"),
                       content: TextField(
+                        controller: _username,
                         maxLength: 10,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: user.username,
+                          hintText: widget.user.username,
                         ),
                       ),
                       actions: <Widget>[
                         FlatButton(
                           child: Text('Save'),
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            _usernameState(_username.text);
+                            _username.clear();
+                            Navigator.of(context).pop(widget.user.username);
                           },
                         ),
                         FlatButton(
                             child: Text('Cancel'),
                             onPressed: () {
-                              Navigator.of(context).pop();
+                              _username.clear();
+                              Navigator.of(context).pop(null);
                             }),
                       ],
                     );
@@ -193,25 +239,29 @@ class _ProfilePageState extends State<ProfilePage> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text("Password"),
+                      title: Text("New Password"),
                       content: TextField(
+                        controller: _password,
                         obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: user.password,
+                          hintText: widget.user.password,
                         ),
                       ),
                       actions: <Widget>[
                         FlatButton(
                           child: Text('Save'),
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            _passwordState(_password.text);
+                            _password.clear();
+                            Navigator.of(context).pop(widget.user.password);
                           },
                         ),
                         FlatButton(
                             child: Text('Cancel'),
                             onPressed: () {
-                              Navigator.of(context).pop();
+                              _password.clear();
+                              Navigator.of(context).pop(null);
                             }),
                       ],
                     );
@@ -229,24 +279,28 @@ class _ProfilePageState extends State<ProfilePage> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text("Email"),
+                      title: Text("New Email"),
                       content: TextField(
+                        controller: _email,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: user.email,
+                          hintText: widget.user.email,
                         ),
                       ),
                       actions: <Widget>[
                         FlatButton(
                           child: Text('Save'),
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            _emailState(_email.text);
+                            _email.clear();
+                            Navigator.of(context).pop(widget.user.email);
                           },
                         ),
                         FlatButton(
                             child: Text('Cancel'),
                             onPressed: () {
-                              Navigator.of(context).pop();
+                              _email.clear();
+                              Navigator.of(context).pop(null);
                             }),
                       ],
                     );
@@ -352,7 +406,7 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 110,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: user.pet.length+1,
+              itemCount: widget.user.pet.length+1,
               itemBuilder: (context,index) => Container(
                 margin: EdgeInsets.all(10),
                 child: (index == 0) 
@@ -382,10 +436,10 @@ class _ProfilePageState extends State<ProfilePage> {
                             
                             radius: 30.0,
                             backgroundColor: Colors.grey,
-                            backgroundImage: AssetImage(user.pet[index-1].photo),
+                            backgroundImage: AssetImage(widget.user.pet[index-1].photo),
                           ),
                     SizedBox(height: 6,),
-                    Text(user.pet[index-1].name)    
+                    Text(widget.user.pet[index-1].name)    
                   ],
                 ),
               )
@@ -397,7 +451,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return GridView.builder(
                shrinkWrap: true,
                physics: ScrollPhysics(),
-               itemCount: user.photoUrl.length,
+               itemCount: widget.user.photoUrl.length,
                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                  crossAxisCount: 3,
                  crossAxisSpacing: 2,
@@ -407,7 +461,7 @@ class _ProfilePageState extends State<ProfilePage> {
                itemBuilder: (context, index) => Container(
                   margin: EdgeInsets.all(2.0),
                   color: Colors.black,
-                  child: Image.asset(user.photoUrl[index].photoUrl, width: 100, height: 100, fit: BoxFit.cover),
+                  child: Image.asset(widget.user.photoUrl[index].photoUrl, width: 100, height: 100, fit: BoxFit.cover),
                )                
               );
   }
@@ -419,10 +473,7 @@ class _ProfilePageState extends State<ProfilePage> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text('Hamster Lover <3'),
-            InkWell(
-              child: new Text('my instagram'),
-            ),
+            Text(widget.user.bio),
           ],
         ),
       ],
@@ -435,7 +486,8 @@ class _ProfilePageState extends State<ProfilePage> {
         CircleAvatar(
           radius: 50.0,
           backgroundColor: Colors.grey,
-          backgroundImage: AssetImage('assets/photo4.jpg'),
+          backgroundImage: AssetImage(widget.user.profilephoto),
+          
         ),
         Expanded(
             flex: 1,
@@ -450,7 +502,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            '6',
+                            widget.user.postNo.toString(),
                             style: TextStyle(
                                 fontSize: 22.0, fontWeight: FontWeight.bold),
                           ),
@@ -478,7 +530,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            '13',
+                            widget.user.follower.toString(),
                             style: TextStyle(
                                 fontSize: 22.0, fontWeight: FontWeight.bold),
                           ),
@@ -506,7 +558,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            '25',
+                            widget.user.following.toString(),
                             style: TextStyle(
                                 fontSize: 22.0, fontWeight: FontWeight.bold),
                           ),

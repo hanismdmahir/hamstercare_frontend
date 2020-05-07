@@ -10,6 +10,9 @@ List<User> mockUser = [
     username: "User9990",
     bio: "My Lovely Hamster",
     password: "pass",
+    profilephoto: 'assets/photo4.jpg',
+    follower: 15,
+    following: 23,
     pet: [
       Hamster(name:'Hachi', photo:'assets/h2.jpg'),
       Hamster(name:'Horlick', photo:'assets/h3.jpg'),
