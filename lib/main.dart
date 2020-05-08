@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hamstercare/feed/feed.dart';
 import 'package:hamstercare/login/signup.dart';
+import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/reminder/addreminderscreen.dart';
 import 'package:hamstercare/reminder/reminderscreen.dart';
+import 'package:hamstercare/testing.dart';
+import 'package:hamstercare/userProfile/userProfile.dart';
 import 'login/index.dart';
 
 void main() => runApp(MyApp());
@@ -18,12 +21,14 @@ class MyApp extends StatelessWidget {
       primarySwatch: Colors.blue,
       ),
       //home: SplashScreen(),
+      //home: ProfilePage(mockUser[0]),
       //home: SignUp(),
-     // home: FeedNews(),
-     home: ReminderScreen(),
-    // home: AddReminderScreen(),
+      //home: FeedNews(),
+      home: ReminderScreen(mockUser[0]),
+      //home: ReminderScreen(),
+      //home: AddReminderScreen(),
       routes: <String, WidgetBuilder>{
-      '/LoginPage': (BuildContext context) => new LoginPage(),
+      '/LoginPage': (BuildContext context) => new LoginPage(mockUser),
       },
     );
   }
@@ -42,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
           
           context,
           MaterialPageRoute(
-            builder: (context) => LoginPage(),
+            builder: (context) => LoginPage(mockUser),
           ));
     });
   }

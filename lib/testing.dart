@@ -1,18 +1,21 @@
+
 import 'package:flutter/material.dart';
+import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/models/reminder.dart';
-import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/reminder/addreminderscreen.dart';
 
-class ReminderScreen extends StatefulWidget {
+import 'models/user.dart';
+
+class Testing extends StatefulWidget {
   final User user;
 
-  ReminderScreen(this.user);
+  Testing(this.user);
 
   @override
-  _ReminderScreen createState() => _ReminderScreen();
+  _Testing createState() => _Testing();
 }
   
-class _ReminderScreen extends State<ReminderScreen> {
+class _Testing extends State<Testing> {
 
   @override
   Widget build(BuildContext context) {
@@ -190,64 +193,4 @@ class _ReminderScreen extends State<ReminderScreen> {
   }
 }
 
-
-
-
-  Column _buildDay({day}) {
-    return Column(children: <Widget>[
-      Padding(
-        child: Text(
-          day,
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-        padding: EdgeInsets.all(7),
-      ),
-    ]);
-  }
-
-  Card _buildCard({title, time}) {
-    return Card(
-      child: ListTile(
-        title: Text(title),
-        subtitle: Text(time),
-        trailing: Wrap(
-          spacing: 12,
-          children: <Widget>[
-            Icon(IconData(57940, fontFamily: 'MaterialIcons')),
-            Icon(IconData(59506, fontFamily: 'MaterialIcons')),
-          ],
-        ),
-      ),
-    );
-  }
-
-  BottomNavigationBar buildBottomNavigationBar() {
-    return BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        //currentIndex: _currentIndex,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.photo_library),
-            title: Text('Feed'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.question_answer),
-            title: Text('QnA'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_box),
-            title: Text('Add'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_none),
-            title: Text('Reminder'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.perm_identity),
-            title: Text('Profile'),
-          ),
-        ],
-        onTap: null);
-}
 
