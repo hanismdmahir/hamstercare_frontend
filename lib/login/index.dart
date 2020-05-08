@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/login/signup.dart';
 import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/userProfile/userProfile.dart';
@@ -149,8 +150,13 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 40,
                 ),
-                Text("Don't have a account? Sign Up here",
+                InkWell(
+                child: Text("Don't have a account? Sign Up here",
                     style: TextStyle(color: Colors.black87)),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute( builder: (context) => SignUp()));
+                },
+              )
               ],
             ),
           )),
