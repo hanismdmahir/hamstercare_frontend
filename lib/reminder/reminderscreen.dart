@@ -13,7 +13,7 @@ class ReminderScreen extends StatefulWidget {
 }
   
 class _ReminderScreen extends State<ReminderScreen> {
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +62,45 @@ class _ReminderScreen extends State<ReminderScreen> {
                           shrinkWrap: true,
                           physics: ScrollPhysics(),
                           itemBuilder:  (BuildContext context, int index) {
-                            return _buildCard(widget.user.reminder[index]);
+                            return Dismissible(
+                              key: UniqueKey(),
+                              direction: DismissDirection.endToStart,
+                              onDismissed: (direction) {
+                                setState(() {
+                                  widget.user.reminder.removeAt(index);
+                                });
+                                Scaffold.of(context)
+                                .showSnackBar(SnackBar(content: Text("Reminder has been deleted")));
+                              },
+                              background: Container(
+                                color: Colors.red,
+                                child: Align(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        " Delete",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                    ],
+                                  ),
+                                  alignment: Alignment.centerRight,
+                                ),
+                              ),
+
+                              child: _buildCard(widget.user.reminder[index])
+                              );
 
                           },
                           itemCount: widget.user.reminder.length,
@@ -71,7 +109,7 @@ class _ReminderScreen extends State<ReminderScreen> {
                     );
                   },
                   separatorBuilder: (BuildContext context, int indexL) => const Divider(color: Colors.white54), 
-                  itemCount: 2),
+                  itemCount: 1),
               ],
             )
           ]
@@ -116,7 +154,12 @@ class _ReminderScreen extends State<ReminderScreen> {
         
         onPressed: (){
           showDialog(context: context,
-          builder:(context)=>AddReminderScreen(widget.user));
+          builder:(context)=>AddReminderScreen(widget.user))
+          .then((addedReminder) {
+            setState(() {
+              widget.user.reminder = addedReminder;
+            });
+          });
         },
         backgroundColor: Colors.white,
         label: Text(
@@ -153,7 +196,6 @@ class _ReminderScreen extends State<ReminderScreen> {
           spacing: 12,
           children: <Widget>[
             Icon(IconData(57940, fontFamily: 'MaterialIcons')),
-            Icon(IconData(59506, fontFamily: 'MaterialIcons')),
           ],
         ),
       ),

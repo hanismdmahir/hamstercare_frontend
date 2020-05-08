@@ -54,9 +54,11 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
   }
 
   void _addReminder(String title, DateTime date, TimeOfDay time, String note, bool repeat){
-    User _user = User.copy(widget.user);
-    _user.reminder.add(Reminder(date:date , time: time ,note:note ,title: title ,repeated: repeat));
-    widget.user.reminder = _user.reminder;
+    setState(() {
+      User _user = User.copy(widget.user);
+      _user.reminder.add(Reminder(date:date , time: time ,note:note ,title: title ,repeated: repeat));
+      widget.user.reminder = _user.reminder;
+    });
 
   }
 

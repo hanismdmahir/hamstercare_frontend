@@ -17,15 +17,22 @@ List<User> mockUser = [
     follower: 15,
     following: 23,
     reminder: [
-      Reminder(
-        date: DateTime(2020,5,8),
+        Reminder(
+        date: DateTime(2020,5,9),
         time: TimeOfDay(hour: 16, minute: 30),
         title: 'Change Bedding',
         note: 'Tukar layout cage',
         repeated: true),
 
         Reminder(
-        date: DateTime(2020,5,8),
+        date: DateTime(2020,5,9),
+        time: TimeOfDay(hour: 23, minute: 30),
+        title: 'Feeding time',
+        note: 'Jangan lupa bagi treat',
+        repeated: false),
+
+        Reminder(
+        date: DateTime(2020,5,9),
         time: TimeOfDay(hour: 23, minute: 30),
         title: 'Feeding time',
         note: 'Jangan lupa bagi treat',

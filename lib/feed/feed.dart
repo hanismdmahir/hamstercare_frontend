@@ -9,7 +9,7 @@ class FeedNews extends StatefulWidget {
 }
 
 class _FeedNewsState extends State<FeedNews> {
-  int _currentIndex = 4;
+  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

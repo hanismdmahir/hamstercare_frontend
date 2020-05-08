@@ -25,31 +25,53 @@ class _ProfilePageState extends State<ProfilePage> {
     // Clean up the controller when the widget is disposed.
     _bio.dispose();
     _username.dispose();
+    _password.dispose();
+    _email.dispose();
     super.dispose();
   }
 
   void _bioState(String bio){
-    User _user = User.copy(widget.user);
-    _user.bio = bio;
-    widget.user.bio = _user.bio;
+    setState((){
+      User _user = User.copy(widget.user);
+      _user.bio = bio;
+      widget.user.bio = _user.bio;
+    });
   }
 
   void _usernameState(String username){
-    User _user = User.copy(widget.user);
-    _user.username = username;
-    widget.user.username = _user.username;
+    setState(() {
+      User _user = User.copy(widget.user);
+      _user.username = username;
+      widget.user.username = _user.username;
+    });
   }
 
   void _passwordState(String password){
-    User _user = User.copy(widget.user);
-    _user.password = password;
-    widget.user.password = _user.password;
+    setState(() {
+      User _user = User.copy(widget.user);
+      _user.password = password;
+      widget.user.password = _user.password;
+    });
   }
 
   void _emailState(String email){
-    User _user = User.copy(widget.user);
-    _user.email = email;
-    widget.user.email = _user.email;
+    setState(() {
+      User _user = User.copy(widget.user);
+      _user.email = email;
+      widget.user.email = _user.email;
+    });
+  }
+
+  void _deleteImage(int index){
+    setState(() {
+      widget.user.photoUrl.removeAt(index);
+    });
+  }
+
+  void _deletePet(int index){
+    setState(() {
+      widget.user.pet.removeAt(index-1);
+    });
   }
 
   int _currentIndex = 4;
@@ -431,17 +453,42 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
             )
                   
-                : Column(
-                  children: <Widget>[
-                    CircleAvatar(
-                            
-                            radius: 30.0,
-                            backgroundColor: Colors.grey,
-                            backgroundImage: AssetImage(widget.user.pet[index-1].photo),
-                          ),
-                    SizedBox(height: 6,),
-                    Text(widget.user.pet[index-1].name)    
-                  ],
+                : InkWell(
+                  onLongPress: () => showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Remove Pet ?"),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop(null);
+                          },
+                        ),
+                        FlatButton(
+                            child: Text('Remove'),
+                            onPressed: () {
+                              _deletePet(index);
+                              Navigator.of(context).pop(widget.user);
+                            }),
+                      ],
+                      );
+                    }
+                    ),
+
+                    child: Column(
+                    children: <Widget>[
+                      CircleAvatar(
+                              
+                              radius: 30.0,
+                              backgroundColor: Colors.grey,
+                              backgroundImage: AssetImage(widget.user.pet[index-1].photo),
+                            ),
+                      SizedBox(height: 6,),
+                      Text(widget.user.pet[index-1].name)    
+                    ],
+                  ),
                 ),
               )
               ),
@@ -459,10 +506,34 @@ class _ProfilePageState extends State<ProfilePage> {
                  mainAxisSpacing: 2,
                  childAspectRatio: 1,
                ),
-               itemBuilder: (context, index) => Container(
-                  margin: EdgeInsets.all(2.0),
-                  color: Colors.black,
-                  child: Image.asset(widget.user.photoUrl[index].photoUrl, width: 100, height: 100, fit: BoxFit.cover),
+               itemBuilder: (context, index) => InkWell(
+                onLongPress: () => showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Do you want to delete it ?"),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop(null);
+                          },
+                        ),
+                        FlatButton(
+                            child: Text('Delete'),
+                            onPressed: () {
+                              _deleteImage(index);
+                              Navigator.of(context).pop(widget.user);
+                            }),
+                      ],
+                    );
+                  }
+                  ),
+                child: Container(
+                    margin: EdgeInsets.all(2.0),
+                    color: Colors.black,
+                    child: Image.asset(widget.user.photoUrl[index].photoUrl, width: 100, height: 100, fit: BoxFit.cover),
+                 ),
                )                
               );
   }
