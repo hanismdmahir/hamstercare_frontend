@@ -17,6 +17,7 @@ class _ReminderScreen extends State<ReminderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //to avoid overflow pixel
       resizeToAvoidBottomInset: false,
       body: Container(
         width: double.infinity,
