@@ -20,11 +20,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
       primarySwatch: Colors.blue,
       ),
-      //home: SplashScreen(),
+      home: SplashScreen(),
       //home: ProfilePage(mockUser[0]),
       //home: SignUp(),
       //home: FeedNews(),
-      home: ReminderScreen(mockUser[0]),
+      //home: ReminderScreen(mockUser[0]),
       //home: ReminderScreen(),
       //home: AddReminderScreen(),
       routes: <String, WidgetBuilder>{

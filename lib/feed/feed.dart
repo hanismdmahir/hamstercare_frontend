@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/models/mock_user.dart';
+import 'package:hamstercare/reminder/reminderscreen.dart';
+import 'package:hamstercare/userProfile/userProfile.dart';
 
 class FeedNews extends StatefulWidget {
   @override
@@ -365,6 +368,17 @@ class _FeedNewsState extends State<FeedNews> {
           ),
         ],
         onTap: (index) {
+          switch (index) {
+            case 0:
+             Navigator.push(context,MaterialPageRoute(builder: (context) => FeedNews(),));
+             break;
+             case 3:
+             Navigator.push(context,MaterialPageRoute(builder: (context) => ReminderScreen(mockUser[0]),));
+             break;
+             case 4:
+             Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage(mockUser[0]),));
+             break;
+          }
           setState(() {
             _currentIndex = index;
           });
