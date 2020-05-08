@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hamstercare/models/mock_user.dart';
+import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/userProfile/userProfile.dart';
 
 class LoginPage extends StatefulWidget {
   static final TextEditingController _user = new TextEditingController();
   static final TextEditingController _pass = new TextEditingController();
+
+  final List <User> alluser;
+
+  LoginPage(this.alluser);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -14,6 +19,8 @@ class _LoginPageState extends State<LoginPage> {
   String get username => LoginPage._user.text;
 
   String get password => LoginPage._pass.text;
+
+  bool login = false;
 
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -119,7 +126,9 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Colors.orange,
                                   fontWeight: FontWeight.bold)),
                           onPressed: () {
-                            if (username == "user999" && password == "pass") {
+                            for (var i = 0; i < widget.alluser.length; i++) {
+                              if (username == widget.alluser[i].username && password == widget.alluser[i].password) {
+                              login = true;
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -127,7 +136,10 @@ class _LoginPageState extends State<LoginPage> {
 
                                     // _showSnackBar
                                   ));
-                            } else {
+                            } 
+                          
+                            }
+                            if(login == false) {
                               scaffoldKey.currentState.showSnackBar(new SnackBar(
                                   content: new Text(
                                       "Your Username or Password Are Wrong!")));

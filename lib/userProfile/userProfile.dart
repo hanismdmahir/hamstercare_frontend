@@ -687,7 +687,7 @@ class CustomDialog extends StatelessWidget {
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
-                              builder: (context) => LoginPage(),
+                              builder: (context) => LoginPage(mockUser),
                             ));
                       },
                       child: Text("Confirm"),
