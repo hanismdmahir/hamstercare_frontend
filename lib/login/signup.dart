@@ -170,7 +170,7 @@ class __ListTextFieldState extends State<_ListTextField> {
                 ),
                 // link to login
                 FlatButton(
-                    onPressed: null,
+                    onPressed: () =>  Navigator.pop(context),
                     child: Text(
                       "Already have account?",
                       style: TextStyle(color: Colors.grey[100]),
