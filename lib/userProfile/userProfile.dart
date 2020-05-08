@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hamstercare/login/index.dart';
 import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/models/user.dart';
+import 'package:hamstercare/reminder/reminderscreen.dart';
 
 final Color darkBlue = Color.fromARGB(255, 18, 32, 47);
 
@@ -612,6 +613,17 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
         onTap: (index) {
+          switch (index) {
+            case 0:
+             Navigator.pop(context);
+             break;
+             case 3:
+             Navigator.push(context,MaterialPageRoute(builder: (context) => ReminderScreen(mockUser[0]),));
+             break;
+             case 4:
+             Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage(mockUser[0]),));
+             break;
+          }
           setState(() {
             _currentIndex = index;
           });
