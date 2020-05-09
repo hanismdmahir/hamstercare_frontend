@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hamstercare/feed/feed.dart';
 import 'package:hamstercare/login/signup.dart';
+import 'package:hamstercare/models/mock_feed.dart';
 import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/reminder/addreminderscreen.dart';
 import 'package:hamstercare/reminder/reminderscreen.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       home: SplashScreen(),
       //home: ProfilePage(mockUser[0]),
       //home: SignUp(),
-      //home: FeedNews(),
+      //home: FeedNews(feed,mockUser[0]),
       //home: ReminderScreen(mockUser[0]),
       //home: ReminderScreen(),
       //home: AddReminderScreen(),

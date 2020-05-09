@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hamstercare/feed/feed.dart';
 import 'package:hamstercare/login/signup.dart';
+import 'package:hamstercare/models/mock_feed.dart';
 import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/userProfile/userProfile.dart';
@@ -134,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => FeedNews(),
+                                    builder: (context) => FeedNews(feed,mockUser[0]),
 
                                     // _showSnackBar
                                   ));

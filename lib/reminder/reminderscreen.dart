@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/models/mock_feed.dart';
 import 'package:hamstercare/models/reminder.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/reminder/addreminderscreen.dart';
@@ -16,7 +17,7 @@ class ReminderScreen extends StatefulWidget {
 }
   
 class _ReminderScreen extends State<ReminderScreen> {
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +66,45 @@ class _ReminderScreen extends State<ReminderScreen> {
                           shrinkWrap: true,
                           physics: ScrollPhysics(),
                           itemBuilder:  (BuildContext context, int index) {
-                            return _buildCard(widget.user.reminder[index]);
+                            return Dismissible(
+                              key: UniqueKey(),
+                              direction: DismissDirection.endToStart,
+                              onDismissed: (direction) {
+                                setState(() {
+                                  widget.user.reminder.removeAt(index);
+                                });
+                                Scaffold.of(context)
+                                .showSnackBar(SnackBar(content: Text("Reminder has been deleted")));
+                              },
+                              background: Container(
+                                color: Colors.red,
+                                child: Align(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        " Delete",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                    ],
+                                  ),
+                                  alignment: Alignment.centerRight,
+                                ),
+                              ),
+
+                              child: _buildCard(widget.user.reminder[index],index)
+                              );
 
                           },
                           itemCount: widget.user.reminder.length,
@@ -74,7 +113,7 @@ class _ReminderScreen extends State<ReminderScreen> {
                     );
                   },
                   separatorBuilder: (BuildContext context, int indexL) => const Divider(color: Colors.white54), 
-                  itemCount: 2),
+                  itemCount: 1),
               ],
             )
           ]
@@ -119,7 +158,12 @@ class _ReminderScreen extends State<ReminderScreen> {
         
         onPressed: (){
           showDialog(context: context,
-          builder:(context)=>AddReminderScreen(widget.user));
+          builder:(context)=>AddReminderScreen(widget.user,"add",0))
+          .then((addedReminder) {
+            setState(() {
+              widget.user.reminder = addedReminder;
+            });
+          });
         },
         backgroundColor: Colors.white,
         label: Text(
@@ -147,7 +191,7 @@ class _ReminderScreen extends State<ReminderScreen> {
     ]);
   }
 
-  Card _buildCard(Reminder r) {
+  Card _buildCard(Reminder r, int index) {
     return Card(
       child: ListTile(
         title: Text(r.title),
@@ -155,8 +199,16 @@ class _ReminderScreen extends State<ReminderScreen> {
         trailing: Wrap(
           spacing: 12,
           children: <Widget>[
-            Icon(IconData(57940, fontFamily: 'MaterialIcons')),
-            Icon(IconData(59506, fontFamily: 'MaterialIcons')),
+            InkWell(
+              onTap: () => showDialog(context: context,
+                            builder:(context)=>AddReminderScreen(widget.user,"edit", index))
+                            .then((editedReminder) {
+                              setState(() {
+                                widget.user.reminder = editedReminder;
+                              });
+                            }),
+              child: Icon(IconData(57940, fontFamily: 'MaterialIcons'))
+              ),
           ],
         ),
       ),
@@ -193,73 +245,12 @@ class _ReminderScreen extends State<ReminderScreen> {
         onTap: (index) {
           switch (index) {
             case 0:
-              Navigator.push(context,MaterialPageRoute(builder: (context) => FeedNews()));
+              Navigator.push(context,MaterialPageRoute(builder: (context) => FeedNews(feed,widget.user)));
              break;
              case 4:
              Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage(mockUser[0]),));
              break;
           }});
   }
-}
-
-
-
-
-  Column _buildDay({day}) {
-    return Column(children: <Widget>[
-      Padding(
-        child: Text(
-          day,
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-        padding: EdgeInsets.all(7),
-      ),
-    ]);
-  }
-
-  Card _buildCard({title, time}) {
-    return Card(
-      child: ListTile(
-        title: Text(title),
-        subtitle: Text(time),
-        trailing: Wrap(
-          spacing: 12,
-          children: <Widget>[
-            Icon(IconData(57940, fontFamily: 'MaterialIcons')),
-            Icon(IconData(59506, fontFamily: 'MaterialIcons')),
-          ],
-        ),
-      ),
-    );
-  }
-
-  BottomNavigationBar buildBottomNavigationBar() {
-    return BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        //currentIndex: _currentIndex,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.photo_library),
-            title: Text('Feed'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.question_answer),
-            title: Text('QnA'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_box),
-            title: Text('Add'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_none),
-            title: Text('Reminder'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.perm_identity),
-            title: Text('Profile'),
-          ),
-        ],
-        onTap: null);
 }
 
