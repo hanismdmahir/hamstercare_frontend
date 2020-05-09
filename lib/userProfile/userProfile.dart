@@ -21,6 +21,15 @@ class _ProfilePageState extends State<ProfilePage> {
   final _email = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _bio.text = widget.user.bio;
+    _username.text = widget.user.username;
+    _password.text = widget.user.password;
+    _email.text = widget.user.email;
+  }
+
+  @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     _bio.dispose();
@@ -70,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _deletePet(int index){
     setState(() {
-      widget.user.pet.removeAt(index-1);
+      widget.user.pet.removeAt(index);
     });
   }
 
@@ -429,10 +438,12 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 110,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: widget.user.pet.length+1,
+              itemCount: widget.user.pet.length,
               itemBuilder: (context,index) => Container(
                 margin: EdgeInsets.all(10),
-                child: (index == 0) 
+                child: 
+                
+                /*(index == 0) 
                 ? GestureDetector(
                   onTap: null,
                   child: Column(
@@ -452,8 +463,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
             )
-                  
-                : InkWell(
+                : */
+                
+                InkWell(
                   onLongPress: () => showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -483,10 +495,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               
                               radius: 30.0,
                               backgroundColor: Colors.grey,
-                              backgroundImage: AssetImage(widget.user.pet[index-1].photo),
+                              backgroundImage: AssetImage(widget.user.pet[index].photo),
                             ),
                       SizedBox(height: 6,),
-                      Text(widget.user.pet[index-1].name)    
+                      Text(widget.user.pet[index].name)    
                     ],
                   ),
                 ),
@@ -532,7 +544,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Container(
                     margin: EdgeInsets.all(2.0),
                     color: Colors.black,
-                    child: Image.asset(widget.user.photoUrl[index].photoUrl, width: 100, height: 100, fit: BoxFit.cover),
+                    child: Image.asset(widget.user.photoUrl[index].feedImage, width: 100, height: 100, fit: BoxFit.cover),
                  ),
                )                
               );

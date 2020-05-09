@@ -1,5 +1,5 @@
 
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/models/reminder.dart';
 import 'package:hamstercare/reminder/addreminderscreen.dart';
@@ -191,6 +191,6 @@ class _Testing extends State<Testing> {
         ],
         onTap: null);
   }
-}
+}*/
 
 
