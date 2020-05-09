@@ -369,9 +369,6 @@ class _FeedNewsState extends State<FeedNews> {
         ],
         onTap: (index) {
           switch (index) {
-            case 0:
-             Navigator.push(context,MaterialPageRoute(builder: (context) => FeedNews(),));
-             break;
              case 3:
              Navigator.push(context,MaterialPageRoute(builder: (context) => ReminderScreen(mockUser[0]),));
              break;

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hamstercare/models/reminder.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/reminder/addreminderscreen.dart';
+import 'package:hamstercare/userProfile/userProfile.dart';
+import '../feed/feed.dart';
+import 'package:hamstercare/models/mock_user.dart';
 
 class ReminderScreen extends StatefulWidget {
   final User user;
@@ -187,7 +190,15 @@ class _ReminderScreen extends State<ReminderScreen> {
             title: Text('Profile'),
           ),
         ],
-        onTap: null);
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.push(context,MaterialPageRoute(builder: (context) => FeedNews()));
+             break;
+             case 4:
+             Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage(mockUser[0]),));
+             break;
+          }});
   }
 }
 
