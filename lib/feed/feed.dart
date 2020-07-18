@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/add/add.dart';
+import 'package:hamstercare/discussion/discussion.dart';
 import 'package:hamstercare/models/gallery.dart';
 import 'package:hamstercare/models/mock_feed.dart';
 import 'package:hamstercare/models/mock_user.dart';
@@ -512,27 +514,21 @@ class _FeedNewsState extends State<FeedNews> {
         ],
         onTap: (index) {
           switch (index) {
-            case 0:
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FeedNews(feed, mockUser[0]),
-                  ));
-              break;
-            case 3:
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ReminderScreen(mockUser[0]),
-                  ));
-              break;
-            case 4:
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfilePage(mockUser[0]),
-                  ));
-              break;
+           case 0:
+              Navigator.push(context,MaterialPageRoute(builder: (context) => FeedNews(feed,widget.user)));
+             break;
+             case 1:
+              Navigator.push(context,MaterialPageRoute(builder: (context) => DiscussionScreen(mockUser[0])));
+             break;
+             case 2:
+              Navigator.push(context,MaterialPageRoute(builder: (context) => AddScreen(mockUser[0])));
+             break;
+             case 3:
+             Navigator.push(context,MaterialPageRoute(builder: (context) => ReminderScreen(mockUser[0]),));
+             break;
+             case 4:
+             Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage(mockUser[0]),));
+             break;
           }
           setState(() {
             _currentIndex = index;

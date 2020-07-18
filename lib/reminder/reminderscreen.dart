@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/add/add.dart';
+import 'package:hamstercare/discussion/discussion.dart';
 import 'package:hamstercare/models/mock_feed.dart';
 import 'package:hamstercare/models/reminder.dart';
 import 'package:hamstercare/models/user.dart';
@@ -6,6 +8,8 @@ import 'package:hamstercare/reminder/addreminderscreen.dart';
 import 'package:hamstercare/userProfile/userProfile.dart';
 import '../feed/feed.dart';
 import 'package:hamstercare/models/mock_user.dart';
+
+import '../models/mock_user.dart';
 
 class ReminderScreen extends StatefulWidget {
   final User user;
@@ -17,6 +21,7 @@ class ReminderScreen extends StatefulWidget {
 }
   
 class _ReminderScreen extends State<ReminderScreen> {
+  int _currentIndex = 3;
   
   @override
   Widget build(BuildContext context) {
@@ -219,7 +224,7 @@ class _ReminderScreen extends State<ReminderScreen> {
     return BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
-        //currentIndex: _currentIndex,
+        currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.photo_library),
@@ -246,6 +251,15 @@ class _ReminderScreen extends State<ReminderScreen> {
           switch (index) {
             case 0:
               Navigator.push(context,MaterialPageRoute(builder: (context) => FeedNews(feed,widget.user)));
+             break;
+             case 1:
+              Navigator.push(context,MaterialPageRoute(builder: (context) => DiscussionScreen(mockUser[0])));
+             break;
+             case 2:
+              Navigator.push(context,MaterialPageRoute(builder: (context) => AddScreen(mockUser[0])));
+             break;
+             case 3:
+             Navigator.push(context,MaterialPageRoute(builder: (context) => ReminderScreen(mockUser[0]),));
              break;
              case 4:
              Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage(mockUser[0]),));

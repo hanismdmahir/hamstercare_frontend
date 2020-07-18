@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/add/add.dart';
+import 'package:hamstercare/discussion/discussion.dart';
 import 'package:hamstercare/feed/feed.dart';
 import 'package:hamstercare/login/index.dart';
 import 'package:hamstercare/models/mock_feed.dart';
 import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/reminder/reminderscreen.dart';
+import 'package:hamstercare/userProfile/editHamster.dart';
 
 final Color darkBlue = Color.fromARGB(255, 18, 32, 47);
 
@@ -443,31 +446,7 @@ class _ProfilePageState extends State<ProfilePage> {
               itemCount: widget.user.pet.length,
               itemBuilder: (context,index) => Container(
                 margin: EdgeInsets.all(10),
-                child: 
-                
-                /*(index == 0) 
-                ? GestureDetector(
-                  onTap: null,
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                border: Border.all(width: 3, color: Colors.black)),
-                            child: Icon(
-                              Icons.add,
-                              size: 56,
-                              color: Colors.black,
-                            ),
-                          ),
-                      SizedBox(height: 5,),
-                      Text("Add")
-                    ],
-                  ),
-            )
-                : */
-                
-                InkWell(
+                child:InkWell(
                   onLongPress: () => showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -490,6 +469,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       );
                     }
                     ),
+
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => HamsterBiodata())),
 
                     child: Column(
                     children: <Widget>[
@@ -700,10 +681,19 @@ class _ProfilePageState extends State<ProfilePage> {
         onTap: (index) {
           switch (index) {
             case 0:
-            Navigator.push(context,MaterialPageRoute(builder: (context) => FeedNews(feed,widget.user)));
-            break;
+              Navigator.push(context,MaterialPageRoute(builder: (context) => FeedNews(feed,widget.user)));
+             break;
+             case 1:
+              Navigator.push(context,MaterialPageRoute(builder: (context) => DiscussionScreen(mockUser[0])));
+             break;
+             case 2:
+              Navigator.push(context,MaterialPageRoute(builder: (context) => AddScreen(mockUser[0])));
+             break;
              case 3:
              Navigator.push(context,MaterialPageRoute(builder: (context) => ReminderScreen(mockUser[0]),));
+             break;
+             case 4:
+             Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage(mockUser[0]),));
              break;
           }
           setState(() {
