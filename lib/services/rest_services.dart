@@ -20,7 +20,7 @@ class RestService {
 
   static const String baseUrl =
       //need to change it
-      'https://us-central1-backend-firebase-demo-2d28b.cloudfunctions.net/api';
+      'https://us-central1-hamstercare-finalmap.cloudfunctions.net/api';
 
   Future get(String endpoint) async {
     final response = await http.get('$baseUrl/$endpoint');
