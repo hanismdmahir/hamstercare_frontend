@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "hamstercare-projectmap"
+    "default": "hamstercare-finalmap",
+    "database": "hamstercare-finalmap"
   }
 }

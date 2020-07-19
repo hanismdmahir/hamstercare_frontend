@@ -1,8 +1,16 @@
-const functions = require('firebase-functions');
+const functions = require("firebase-functions");
+const express = require("express");
+const app = express();
+const todosRouter = require("./api/controllers/todos_controller");
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+app.use(express.json());
+app.use("/todos", todosRouter);
+
+exports.api = functions.https.onRequest(app);
+
+// To handle "Function Timeout" exception
+exports.functionsTimeOut = functions.runWith({
+  timeoutSeconds: 300,
+});
+
+ exports.setupdb = functions.https.onRequest(require('./setup_database'))
