@@ -57,9 +57,9 @@ class User {
             post: json['post'],
             follower: json['follower'],
             following: json['following']
-            // reminder: [...json['reminder']],
-            //   pet: [...json['pet']],
-            // photoUrl: [...json['photoUrl']]
+            //  reminder: [...json['reminder']],
+            //pet: [...json['pet']],
+            //  photoUrl: [...json['photoUrl']]
             );
 
   Map<String, dynamic> toJson() => {
@@ -72,7 +72,7 @@ class User {
         'follower': follower,
         'following': following
         // 'reminder': [...reminder],
-        // 'pet': [...pet],
-        // 'photoUrl': [...photoUrl]
+        //  'pet': [...pet],
+        //  'photoUrl': [...photoUrl]
       };
 }

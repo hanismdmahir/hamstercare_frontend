@@ -149,6 +149,8 @@ class _LoginPageState extends State<LoginPage> {
                               if (username == alluser[i].username &&
                                   password == alluser[i].password) {
                                 login = true;
+                                LoginPage._user.clear();
+                                LoginPage._pass.clear();
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

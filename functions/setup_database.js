@@ -15,10 +15,10 @@ async function setupDatabase(req, res, next) {
   // ]);
 
   addDocuments("user", [
-    { email: " User@gmail.com" , username: "User 999", password:"123456", bio:"My Lovely Hamster", profilephoto: "ssets/photo4.jpg",  follower: 15,
+    { email: " User@gmail.com" , username: "User 999", password:"123456", bio:"My Lovely Hamster", profilephoto: "ssets/photo4.jpg", post:3,  follower: 15,
     following: 23 },
-    { email: " Chen@gmail.com" , username: "Chen Mei", password:"pass", bio:"Like Hamster", profilephoto: "ssets/photo4.jpg",  follower: 55,
-    following:3 },
+    { email: " Chen@gmail.com" , username: "Chen Mei", password:"pass", bio:"Like Hamster", profilephoto: "ssets/photo4.jpg",  post: 10, follower: 55,
+    following:3  },
 
     // { title: "Replace light bulb", completed: true },
     // { title: "Buy Flutter eBook", completed: false },

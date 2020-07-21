@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/login/index.dart';
+import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/services/auth_services.dart';
 
 class SignUp extends StatelessWidget {
@@ -26,9 +28,13 @@ class _ListTextField extends StatefulWidget {
   const _ListTextField({
     Key key,
   }) : super(key: key);
+
   static final TextEditingController _username = new TextEditingController();
   static final TextEditingController _email = new TextEditingController();
   static final TextEditingController _pass = new TextEditingController();
+  static final TextEditingController _pass2 = new TextEditingController();
+  //final User user;
+  // _ListTextField(this.user);
   @override
   __ListTextFieldState createState() => __ListTextFieldState();
 }
@@ -36,9 +42,12 @@ class _ListTextField extends StatefulWidget {
 class __ListTextFieldState extends State<_ListTextField> {
   String get username => _ListTextField._username.text;
   String get email => _ListTextField._email.text;
-
+  User users;
   String get password => _ListTextField._pass.text;
+  String get password2 => _ListTextField._pass2.text;
   final dataService = UserDataService();
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -149,6 +158,7 @@ class __ListTextFieldState extends State<_ListTextField> {
                               offset: Offset(0, 10))
                         ]),
                     child: TextField(
+                      controller: _ListTextField._pass2,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
@@ -175,7 +185,33 @@ class __ListTextFieldState extends State<_ListTextField> {
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 16)),
-                    onPressed: null,
+                    onPressed: () async {
+                      if (password == password2) {
+                        User createuser = await dataService.createUser(
+                            username: username,
+                            email: email,
+                            password: password);
+                        setState(
+                          () => users = createuser,
+                        );
+                        _ListTextField._email.clear();
+                        _ListTextField._pass2.clear();
+                        _ListTextField._pass.clear();
+                        _ListTextField._username.clear();
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+
+                              // _showSnackBar
+                            ));
+                      } else {
+                        scaffoldKey.currentState.showSnackBar(new SnackBar(
+                            content: new Text(
+                                "Your Password is wrong. Please try again!")));
+                      }
+                    },
                   ),
                 ),
                 SizedBox(
