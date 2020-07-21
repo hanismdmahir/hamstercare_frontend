@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:hamstercare/feed/feed.dart';
 import 'package:hamstercare/login/signup.dart';
 import 'package:hamstercare/models/mock_feed.dart';
-import 'package:hamstercare/models/mock_user.dart';
+//import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/models/user.dart';
+import 'package:hamstercare/services/auth_services.dart';
 import 'package:hamstercare/userProfile/userProfile.dart';
 
 class LoginPage extends StatefulWidget {
   static final TextEditingController _user = new TextEditingController();
   static final TextEditingController _pass = new TextEditingController();
 
-  final List <User> alluser;
+  // List<User> alluser;
 
-  LoginPage(this.alluser);
+  // LoginPage(this.alluser);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -20,15 +21,30 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String get username => LoginPage._user.text;
+  List<User> alluser;
 
   String get password => LoginPage._pass.text;
-
+  final dataService = UserDataService();
   bool login = false;
 
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<List<User>>(
+      future: dataService.getAllUser(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          alluser = snapshot.data;
+          return _buildScaffold(context);
+        }
+        //  return _buildScaffold(context);
+        return _buildFetchingDataScreen();
+      },
+    );
+  }
+
+  Scaffold _buildScaffold(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         key: scaffoldKey,
@@ -129,20 +145,21 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Colors.orange,
                                   fontWeight: FontWeight.bold)),
                           onPressed: () {
-                            for (var i = 0; i < widget.alluser.length; i++) {
-                              if (username == widget.alluser[i].username && password == widget.alluser[i].password) {
-                              login = true;
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => FeedNews(feed,mockUser[0]),
+                            for (var i = 0; i < alluser.length; i++) {
+                              if (username == alluser[i].username &&
+                                  password == alluser[i].password) {
+                                login = true;
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          FeedNews(feed, alluser[0]),
 
-                                    // _showSnackBar
-                                  ));
-                            } 
-                          
+                                      // _showSnackBar
+                                    ));
+                              }
                             }
-                            if(login == false) {
+                            if (login == false) {
                               scaffoldKey.currentState.showSnackBar(new SnackBar(
                                   content: new Text(
                                       "Your Username or Password Are Wrong!")));
@@ -153,12 +170,13 @@ class _LoginPageState extends State<LoginPage> {
                   height: 40,
                 ),
                 InkWell(
-                child: Text("Don't have a account? Sign Up here",
-                    style: TextStyle(color: Colors.black87)),
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute( builder: (context) => SignUp()));
-                },
-              )
+                  child: Text("Don't have a account? Sign Up here",
+                      style: TextStyle(color: Colors.black87)),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignUp()));
+                  },
+                )
               ],
             ),
           )),
@@ -200,5 +218,20 @@ class _LoginPageState extends State<LoginPage> {
       Colors.orange[800],
       Colors.orange[400] //ni kalau nak orange cair kat bawah
     ]));
+  }
+
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching User... Please wait'),
+          ],
+        ),
+      ),
+    );
   }
 }

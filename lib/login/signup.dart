@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/services/auth_services.dart';
 
 class SignUp extends StatelessWidget {
   @override
@@ -25,12 +26,19 @@ class _ListTextField extends StatefulWidget {
   const _ListTextField({
     Key key,
   }) : super(key: key);
-
+  static final TextEditingController _username = new TextEditingController();
+  static final TextEditingController _email = new TextEditingController();
+  static final TextEditingController _pass = new TextEditingController();
   @override
   __ListTextFieldState createState() => __ListTextFieldState();
 }
 
 class __ListTextFieldState extends State<_ListTextField> {
+  String get username => _ListTextField._username.text;
+  String get email => _ListTextField._email.text;
+
+  String get password => _ListTextField._pass.text;
+  final dataService = UserDataService();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -65,6 +73,7 @@ class __ListTextFieldState extends State<_ListTextField> {
                               offset: Offset(0, 10))
                         ]),
                     child: TextField(
+                      controller: _ListTextField._username,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
@@ -89,6 +98,7 @@ class __ListTextFieldState extends State<_ListTextField> {
                               offset: Offset(0, 10))
                         ]),
                     child: TextField(
+                      controller: _ListTextField._email,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
@@ -113,6 +123,7 @@ class __ListTextFieldState extends State<_ListTextField> {
                               offset: Offset(0, 10))
                         ]),
                     child: TextField(
+                      controller: _ListTextField._pass,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
@@ -161,7 +172,9 @@ class __ListTextFieldState extends State<_ListTextField> {
                   child: FlatButton(
                     child: Text("Sign Up",
                         style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold,fontSize: 16)),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16)),
                     onPressed: null,
                   ),
                 ),
@@ -170,7 +183,7 @@ class __ListTextFieldState extends State<_ListTextField> {
                 ),
                 // link to login
                 FlatButton(
-                    onPressed: () =>  Navigator.pop(context),
+                    onPressed: () => Navigator.pop(context),
                     child: Text(
                       "Already have account?",
                       style: TextStyle(color: Colors.grey[100]),

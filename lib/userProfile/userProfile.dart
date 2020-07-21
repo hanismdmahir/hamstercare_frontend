@@ -14,7 +14,7 @@ final Color darkBlue = Color.fromARGB(255, 18, 32, 47);
 class ProfilePage extends StatefulWidget {
   final User user;
   ProfilePage(this.user);
-  
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -44,15 +44,15 @@ class _ProfilePageState extends State<ProfilePage> {
     super.dispose();
   }
 
-  void _bioState(String bio){
-    setState((){
+  void _bioState(String bio) {
+    setState(() {
       User _user = User.copy(widget.user);
       _user.bio = bio;
       widget.user.bio = _user.bio;
     });
   }
 
-  void _usernameState(String username){
+  void _usernameState(String username) {
     setState(() {
       User _user = User.copy(widget.user);
       _user.username = username;
@@ -60,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  void _passwordState(String password){
+  void _passwordState(String password) {
     setState(() {
       User _user = User.copy(widget.user);
       _user.password = password;
@@ -68,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  void _emailState(String email){
+  void _emailState(String email) {
     setState(() {
       User _user = User.copy(widget.user);
       _user.email = email;
@@ -76,13 +76,13 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  void _deleteImage(int index){
+  void _deleteImage(int index) {
     setState(() {
       widget.user.photoUrl.removeAt(index);
     });
   }
 
-  void _deletePet(int index){
+  void _deletePet(int index) {
     setState(() {
       widget.user.pet.removeAt(index);
     });
@@ -104,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-   Drawer buildEndDrawer() {
+  Drawer buildEndDrawer() {
     return Drawer(
       child: ListView(
         children: <Widget>[
@@ -198,7 +198,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     return AlertDialog(
                       title: Text("New Bio"),
                       content: TextField(
-                        controller: _bio ,
+                        controller: _bio,
                         maxLength: 50,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
@@ -361,13 +361,11 @@ class _ProfilePageState extends State<ProfilePage> {
             child: RaisedButton(
               color: Colors.orange,
               onPressed: () {
-                 showDialog(
+                showDialog(
                     context: context,
                     builder: (context) => CustomDialog(
                           title: "Are You Sure Want To Logout?",
-                         
                         ));
-
               },
               child: Text(
                 'Logout',
@@ -379,8 +377,8 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ],
-        ),
-      );
+      ),
+    );
   }
 
   AppBar buildAppBar() {
@@ -392,19 +390,15 @@ class _ProfilePageState extends State<ProfilePage> {
           Text('HamsterCare'),
         ],
       ),
-      
     );
   }
-
 
   ListView buildListView() {
     return ListView(children: <Widget>[
       // profile pic n else
       Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
+          child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
             buildProfileInfo(),
 
             SizedBox(
@@ -417,7 +411,6 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 20,
             ),
 
-            
             buildPetAvatar(), //pet avatar
 
             SizedBox(
@@ -432,77 +425,75 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 5,
             ),
 
-           buildGallery() //gallery
-             
+            buildGallery() //gallery
           ])),
     ]);
   }
 
   SizedBox buildPetAvatar() {
     return SizedBox(
-            height: 110,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: widget.user.pet.length,
-              itemBuilder: (context,index) => Container(
+      height: 110,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: widget.user.pet.length,
+          itemBuilder: (context, index) => Container(
                 margin: EdgeInsets.all(10),
-                child:InkWell(
+                child: InkWell(
                   onLongPress: () => showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text("Remove Pet ?"),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Cancel'),
-                          onPressed: () {
-                            Navigator.of(context).pop(null);
-                          },
-                        ),
-                        FlatButton(
-                            child: Text('Remove'),
-                            onPressed: () {
-                              _deletePet(index);
-                              Navigator.of(context).pop(widget.user);
-                            }),
-                      ],
-                      );
-                    }
-                    ),
-
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => HamsterBiodata())),
-
-                    child: Column(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Remove Pet ?"),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('Cancel'),
+                              onPressed: () {
+                                Navigator.of(context).pop(null);
+                              },
+                            ),
+                            FlatButton(
+                                child: Text('Remove'),
+                                onPressed: () {
+                                  _deletePet(index);
+                                  Navigator.of(context).pop(widget.user);
+                                }),
+                          ],
+                        );
+                      }),
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => HamsterBiodata())),
+                  child: Column(
                     children: <Widget>[
                       CircleAvatar(
-                              
-                              radius: 30.0,
-                              backgroundColor: Colors.grey,
-                              backgroundImage: AssetImage(widget.user.pet[index].photo),
-                            ),
-                      SizedBox(height: 6,),
-                      Text(widget.user.pet[index].name)    
+                        radius: 30.0,
+                        backgroundColor: Colors.grey,
+                        backgroundImage:
+                            AssetImage(widget.user.pet[index].photo),
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      Text(widget.user.pet[index].name)
                     ],
                   ),
                 ),
-              )
-              ),
-          );
+              )),
+    );
   }
 
   GridView buildGallery() {
     return GridView.builder(
-               shrinkWrap: true,
-               physics: ScrollPhysics(),
-               itemCount: widget.user.photoUrl.length,
-               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                 crossAxisCount: 3,
-                 crossAxisSpacing: 2,
-                 mainAxisSpacing: 2,
-                 childAspectRatio: 1,
-               ),
-               itemBuilder: (context, index) => InkWell(
-                onLongPress: () => showDialog(
+        shrinkWrap: true,
+        physics: ScrollPhysics(),
+        itemCount: widget.user.photoUrl.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 2,
+          mainAxisSpacing: 2,
+          childAspectRatio: 1,
+        ),
+        itemBuilder: (context, index) => InkWell(
+              onLongPress: () => showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
@@ -522,15 +513,14 @@ class _ProfilePageState extends State<ProfilePage> {
                             }),
                       ],
                     );
-                  }
-                  ),
-                child: Container(
-                    margin: EdgeInsets.all(2.0),
-                    color: Colors.black,
-                    child: Image.asset(widget.user.photoUrl[index].feedImage, width: 100, height: 100, fit: BoxFit.cover),
-                 ),
-               )                
-              );
+                  }),
+              child: Container(
+                margin: EdgeInsets.all(2.0),
+                color: Colors.black,
+                child: Image.asset(widget.user.photoUrl[index].feedImage,
+                    width: 100, height: 100, fit: BoxFit.cover),
+              ),
+            ));
   }
 
   Row buildProfileBio() {
@@ -554,7 +544,6 @@ class _ProfilePageState extends State<ProfilePage> {
           radius: 50.0,
           backgroundColor: Colors.grey,
           backgroundImage: AssetImage(widget.user.profilephoto),
-          
         ),
         Expanded(
             flex: 1,
@@ -651,7 +640,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-   BottomNavigationBar buildBottomNavigationBar() {
+  BottomNavigationBar buildBottomNavigationBar() {
     return BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
@@ -681,20 +670,37 @@ class _ProfilePageState extends State<ProfilePage> {
         onTap: (index) {
           switch (index) {
             case 0:
-              Navigator.push(context,MaterialPageRoute(builder: (context) => FeedNews(feed,widget.user)));
-             break;
-             case 1:
-              Navigator.push(context,MaterialPageRoute(builder: (context) => DiscussionScreen(mockUser[0])));
-             break;
-             case 2:
-              Navigator.push(context,MaterialPageRoute(builder: (context) => AddScreen(mockUser[0])));
-             break;
-             case 3:
-             Navigator.push(context,MaterialPageRoute(builder: (context) => ReminderScreen(mockUser[0]),));
-             break;
-             case 4:
-             Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage(mockUser[0]),));
-             break;
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FeedNews(feed, widget.user)));
+              break;
+            case 1:
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DiscussionScreen(mockUser[0])));
+              break;
+            case 2:
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddScreen(mockUser[0])));
+              break;
+            case 3:
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ReminderScreen(mockUser[0]),
+                  ));
+              break;
+            case 4:
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(mockUser[0]),
+                  ));
+              break;
           }
           setState(() {
             _currentIndex = index;
@@ -702,7 +708,6 @@ class _ProfilePageState extends State<ProfilePage> {
         });
   }
 }
-
 
 class CustomDialog extends StatelessWidget {
   final String title, description, buttonText;
@@ -771,7 +776,7 @@ class CustomDialog extends StatelessWidget {
                         Navigator.push(
                             context,
                             new MaterialPageRoute(
-                              builder: (context) => LoginPage(mockUser),
+                              builder: (context) => LoginPage(),
                             ));
                       },
                       child: Text("Confirm"),

@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-       debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       title: 'HamsterCare',
       theme: ThemeData(
-      primarySwatch: Colors.blue,
+        primarySwatch: Colors.blue,
       ),
       home: SplashScreen(),
       //home: ProfilePage(mockUser[0]),
@@ -29,11 +29,12 @@ class MyApp extends StatelessWidget {
       //home: ReminderScreen(),
       //home: AddReminderScreen(),
       routes: <String, WidgetBuilder>{
-      '/LoginPage': (BuildContext context) => new LoginPage(mockUser),
+        '/LoginPage': (BuildContext context) => new LoginPage(),
       },
     );
   }
 }
+
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -45,24 +46,23 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(Duration(seconds: 5), () {
       Navigator.pushReplacement(
-          
           context,
           MaterialPageRoute(
-            builder: (context) => LoginPage(mockUser),
+            builder: (context) => LoginPage(),
           ));
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: Colors.white,
-       body: Container(
-         child: Center(
-           child: Image.asset("assets/splash.gif", 
-            gaplessPlayback: true, 
-            fit: BoxFit.fill),
-         ),
-       ), 
+      backgroundColor: Colors.white,
+      body: Container(
+        child: Center(
+          child: Image.asset("assets/splash.gif",
+              gaplessPlayback: true, fit: BoxFit.fill),
+        ),
+      ),
     );
   }
 }
