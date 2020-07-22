@@ -35,8 +35,16 @@ class UserDataService {
   // You may not need this REST call in your app. It is only for example here.
   Future<User> createUser(
       {String username, String email, String password}) async {
-    final json = await rest.post('user',
-        data: {'username': username, 'email': email, 'password': password});
+    final json = await rest.post('user', data: {
+      'username': username,
+      'email': email,
+      'password': password,
+      'follower': null,
+      'following': null,
+      'post': null,
+      'bio': null,
+      'profilephoto': null
+    });
     return User.fromJson(json);
   }
 
