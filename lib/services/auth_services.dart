@@ -4,7 +4,7 @@ import 'rest_services.dart';
 // UserDataService is a wrapper class implmenting calls for CRUD operations on Quote endpoints.
 //  The class is implemented using the Singleton design pattern.
 
-// TODO: Modify this class accordingly. You want to add all CRUD operations that your app uses.
+// : Modify this class accordingly. You want to add all CRUD operations that your app uses.
 // Example: get the list of quotes, get a quote for given id, update the like / dislike
 //     You may want to refer the past project flutter_todo_rest, you can clone from github:
 //         $ git clone https://github.com/jumail-utm/flutter_todo_rest.git
@@ -40,7 +40,7 @@ class UserDataService {
     return User.fromJson(json);
   }
 
-  // TODO: You may need to provide the REST calls for the followings:
+  // : You may need to provide the REST calls for the followings:
   //        Get a quote for a given id
   Future<User> getQuote({String id, User username}) async {
     final json = await rest.get('user/$id');

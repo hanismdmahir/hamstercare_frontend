@@ -5,7 +5,7 @@ import 'package:hamstercare/models/mock_feed.dart';
 //import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/services/auth_services.dart';
-import 'package:hamstercare/userProfile/userProfile.dart';
+//import 'package:hamstercare/userProfile/userProfile.dart';
 
 class LoginPage extends StatefulWidget {
   static final TextEditingController _user = new TextEditingController();

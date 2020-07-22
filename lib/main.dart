@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hamstercare/feed/feed.dart';
-import 'package:hamstercare/login/signup.dart';
-import 'package:hamstercare/models/mock_feed.dart';
-import 'package:hamstercare/models/mock_user.dart';
-import 'package:hamstercare/reminder/addreminderscreen.dart';
-import 'package:hamstercare/reminder/reminderscreen.dart';
-import 'package:hamstercare/testing.dart';
-import 'package:hamstercare/userProfile/userProfile.dart';
+// import 'package:hamstercare/feed/feed.dart';
+// import 'package:hamstercare/login/signup.dart';
+// import 'package:hamstercare/models/mock_feed.dart';
+// import 'package:hamstercare/models/mock_user.dart';
+// import 'package:hamstercare/reminder/addreminderscreen.dart';
+// import 'package:hamstercare/reminder/reminderscreen.dart';
+// import 'package:hamstercare/testing.dart';
+// import 'package:hamstercare/userProfile/userProfile.dart';
 import 'login/index.dart';
 
 void main() => runApp(MyApp());
