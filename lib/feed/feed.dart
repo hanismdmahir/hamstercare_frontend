@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:hamstercare/add/add.dart';
 import 'package:hamstercare/discussion/discussion.dart';
 import 'package:hamstercare/models/gallery.dart';
-import 'package:hamstercare/models/mock_feed.dart';
+//import 'package:hamstercare/models/mock_feed.dart';
 import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/reminder/reminderscreen.dart';
 import 'package:hamstercare/userProfile/userProfile.dart';
+
+import '../services/feedback_service.dart';
 
 class FeedNews extends StatefulWidget {
   final List<Gallery> feed;
@@ -19,6 +21,21 @@ class FeedNews extends StatefulWidget {
 }
 
 class _FeedNewsState extends State<FeedNews> {
+  List<Gallery> feed;
+  final dataService = FeedbackDataService();
+
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Gallery>>(
+        future: dataService.getGallery(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            feed = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
   final _caption = TextEditingController();
 
   void _editCaption(int index) {
@@ -33,9 +50,8 @@ class _FeedNewsState extends State<FeedNews> {
     setState(() {
       int j;
       for (var i = 0; i < widget.user.photoUrl.length; i++) {
-        if(widget.feed[index].feedImage == widget.user.photoUrl[i].feedImage)
-        {
-          j =i;
+        if (widget.feed[index].feedImage == widget.user.photoUrl[i].feedImage) {
+          j = i;
         }
       }
 
@@ -45,8 +61,8 @@ class _FeedNewsState extends State<FeedNews> {
   }
 
   int _currentIndex = 0;
-  @override
-  Widget build(BuildContext context) {
+
+  Scaffold _buildMainScreen() {
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: buildBottomNavigationBar(),
@@ -153,6 +169,21 @@ class _FeedNewsState extends State<FeedNews> {
     );
   }
 
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching gallery... Please wait'),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget makeFeed(Gallery feed, int index) {
     return Container(
       margin: EdgeInsets.only(bottom: 20),
@@ -201,46 +232,40 @@ class _FeedNewsState extends State<FeedNews> {
               widget.user.username == feed.userName
                   ? PopupMenuButton<int>(
                       onSelected: (value) {
-                        if(value == 1)
-                        {
-                          //share 
-                        }
-                        else if(value == 2)
-                        {
+                        if (value == 1) {
+                          //share
+                        } else if (value == 2) {
                           showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text("Edit Caption"),
-                                      content: TextField(
-                                        controller: _caption,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          hintText: feed.feedText,
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        FlatButton(
-                                          child: Text('Edit Caption'),
-                                          onPressed: () {
-                                            _editCaption(index);
-                                            _caption.clear();
-                                            Navigator.of(context)
-                                                .pop(widget.feed);
-                                          },
-                                        ),
-                                        FlatButton(
-                                            child: Text('Cancel'),
-                                            onPressed: () {
-                                              _caption.clear();
-                                              Navigator.of(context).pop(null);
-                                            }),
-                                      ],
-                                    );
-                                  });
-                        }
-                        else
-                        {
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Edit Caption"),
+                                  content: TextField(
+                                    controller: _caption,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: feed.feedText,
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text('Edit Caption'),
+                                      onPressed: () {
+                                        _editCaption(index);
+                                        _caption.clear();
+                                        Navigator.of(context).pop(widget.feed);
+                                      },
+                                    ),
+                                    FlatButton(
+                                        child: Text('Cancel'),
+                                        onPressed: () {
+                                          _caption.clear();
+                                          Navigator.of(context).pop(null);
+                                        }),
+                                  ],
+                                );
+                              });
+                        } else {
                           _deletePost(index);
                         }
                       },
@@ -257,23 +282,20 @@ class _FeedNewsState extends State<FeedNews> {
                         PopupMenuItem(
                           value: 2,
                           child: Text(
-                              "Edit",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600),
-                            ),
+                            "Edit",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600),
                           ),
-                
+                        ),
                         PopupMenuItem(
                           value: 3,
                           child: Text(
-                              "Delete",
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.w600),
-                            ),
+                            "Delete",
+                            style: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.w600),
                           ),
-                        
+                        ),
                       ],
                       icon: Icon(Icons.more_vert),
                       offset: Offset(0, 100),
@@ -343,16 +365,12 @@ class _FeedNewsState extends State<FeedNews> {
                   ),
                   //like number
                   Text(
-                    feed.like,
+                    feed.like.toString(),
                     style: TextStyle(fontSize: 15, color: Colors.grey[800]),
                   )
                 ],
               ),
               //like comment
-              Text(
-                feed.comment,
-                style: TextStyle(fontSize: 13, color: Colors.grey[800]),
-              )
             ],
           ),
           SizedBox(
@@ -514,21 +532,38 @@ class _FeedNewsState extends State<FeedNews> {
         ],
         onTap: (index) {
           switch (index) {
-           case 0:
-              Navigator.push(context,MaterialPageRoute(builder: (context) => FeedNews(feed,widget.user)));
-             break;
-             case 1:
-              Navigator.push(context,MaterialPageRoute(builder: (context) => DiscussionScreen(mockUser[0])));
-             break;
-             case 2:
-              Navigator.push(context,MaterialPageRoute(builder: (context) => AddScreen(mockUser[0])));
-             break;
-             case 3:
-             Navigator.push(context,MaterialPageRoute(builder: (context) => ReminderScreen(mockUser[0]),));
-             break;
-             case 4:
-             Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage(mockUser[0]),));
-             break;
+            case 0:
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FeedNews(feed, widget.user)));
+              break;
+            case 1:
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DiscussionScreen(mockUser[0])));
+              break;
+            case 2:
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddScreen(mockUser[0])));
+              break;
+            case 3:
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ReminderScreen(mockUser[0]),
+                  ));
+              break;
+            case 4:
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(mockUser[0]),
+                  ));
+              break;
           }
           setState(() {
             _currentIndex = index;

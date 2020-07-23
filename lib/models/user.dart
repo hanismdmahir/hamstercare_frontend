@@ -1,5 +1,4 @@
 import 'package:hamstercare/models/gallery.dart';
-
 import 'hamster.dart';
 import 'reminder.dart';
 
@@ -56,11 +55,7 @@ class User {
             profilephoto: json['profilephoto'],
             post: json['post'],
             follower: json['follower'],
-            following: json['following']
-            //  reminder: [...json['reminder']],
-            //pet: [...json['pet']],
-            //  photoUrl: [...json['photoUrl']]
-            );
+            following: json['following']);
 
   Map<String, dynamic> toJson() => {
         'email': email,
