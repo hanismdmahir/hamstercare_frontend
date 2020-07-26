@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/add/upload_photo.dart';
 import 'package:hamstercare/discussion/discussion.dart';
 
 import '../feed/feed.dart';
@@ -20,12 +21,11 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
-  final TextEditingController _controller = TextEditingController();
   //var myController = TextEditingController();
   final dataService = FeedbackDataService();
   Gallery theFeed;
-  Color _color = Colors.white;
-  Color _text = Colors.orange;
+  //Color _color = Colors.white;
+  //Color _text = Colors.orange;
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +115,8 @@ class _AddScreenState extends State<AddScreen> {
               ),
               body: TabBarView(
                 children: [
-                  _uploadPhoto(widget.user),
+                  // UploadPhoto(_color: _color, _text: _text, _controller: _controller, dataService: dataService, user: widget.user),
+                  UploadPhoto(widget.user),
                   _addHamster(),
                   _askQuestion(),
                 ],
@@ -233,108 +234,6 @@ class _AddScreenState extends State<AddScreen> {
               onPressed: () {},
               child: Text(
                 'Add',
-                style: TextStyle(
-                  fontSize: 15.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-//photo
-  Center _uploadPhoto(User user) {
-    return Center(
-      child: ListView(
-        children: <Widget>[
-          Center(
-            child: Container(
-              child: Center(
-                child: RaisedButton(
-                  onPressed: () {},
-                  child: Icon(Icons.add_a_photo),
-                  color: Colors.white,
-                ),
-              ),
-              height: 250,
-              width: 250,
-              margin: EdgeInsets.only(top: 20, bottom: 10),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  //color: Colors.grey,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              RaisedButton(
-                //focusColor: Colors.blue,
-                color: _color,
-                onPressed: () {
-                  setState(() {
-                    _color = Colors.orange;
-                    _text = Colors.white;
-                  });
-                },
-                child: Text(
-                  'Hachi',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: _text,
-                  ),
-                ),
-              ),
-              RaisedButton(
-                color: _color,
-                onPressed: () {
-                  setState(() {
-                    _color = Colors.orange;
-                    _text = Colors.white;
-                  });
-                },
-                child: Text(
-                  'Horlick',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: _text,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Container(
-            margin: EdgeInsets.all(40),
-            child: TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 60),
-                border: OutlineInputBorder(),
-                labelText: user.username,
-              ),
-            ),
-          ),
-          Center(
-            child: RaisedButton(
-              color: Colors.orange,
-              onPressed: () async {
-                theFeed = await dataService.createGallery(
-                  userName: user.username,
-                  userImage: user.profilephoto,
-                  feedImage: user.profilephoto,
-                  feedTime: DateTime.now().toString(),
-                  feedText: _controller.text,
-                  like: 5,
-                );
-              },
-              child: Text(
-                'Share',
                 style: TextStyle(
                   fontSize: 15.0,
                   color: Colors.white,

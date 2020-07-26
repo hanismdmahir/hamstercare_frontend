@@ -12,12 +12,15 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
+  bool _noti = false;
+  get noti => _noti;
+  set noti(value) => setState(() => _noti = value);
+
   final _bio = TextEditingController();
   final _username = TextEditingController();
   final _password = TextEditingController();
   final _email = TextEditingController();
   final dataService = UserDataService();
-  var noti;
 
   @override
   void initState() {
@@ -103,7 +106,7 @@ class _SettingState extends State<Setting> {
               ),
             ),
           ),
-//profile picture
+          //profile picture
           ListTile(
             leading: Icon(Icons.photo_camera),
             title: Text('Profile Picture'),
@@ -153,7 +156,7 @@ class _SettingState extends State<Setting> {
             },
           ),
           Divider(),
-//bio
+          //bio
           ListTile(
             leading: Icon(Icons.description),
             title: Text('Bio'),
@@ -180,7 +183,6 @@ class _SettingState extends State<Setting> {
                             newBio.bio = _bio.text;
                             await dataService.newBio(
                                 id: widget.user.id, bio: newBio);
-                            //_bio.clear();
 
                             setState(() {
                               _bioState(_bio.text);
@@ -339,13 +341,25 @@ class _SettingState extends State<Setting> {
           ),
           Divider(),
           //notification
-          // SwitchListTile(
-          //   activeColor: Colors.orange,
-          //   value: noti,
-          //   onChanged: (value) => noti = value,
-          //   title: Text('Notification'),
-          //   secondary: Icon(Icons.notifications_active),
-          // ),
+          SwitchListTile(
+            onChanged: (value) {
+              setState(() {
+                noti = value;
+                return showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Text("Hamstercare will send you notification"),
+                    );
+                  },
+                );
+              });
+            },
+            activeColor: Colors.orange,
+            value: noti,
+            title: Text('Notification'),
+            secondary: Icon(Icons.notifications_active),
+          ),
           Divider(),
           //logout button
           Container(

@@ -23,31 +23,13 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  // void _deleteImage(int index) {
-  //   setState(() {
-  //     widget.user.photoUrl.removeAt(index);
-  //   });
-  // }
-
-  // void _deletePet(int index) {
-  //   setState(() {
-  //     widget.user.pet.removeAt(index);
-  //   });
-  // }
-
-  bool _noti = false;
-  get noti => _noti;
-  set noti(value) => setState(() => _noti = value);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      //body: buildListView(),
       bottomNavigationBar: buildBottomNavigationBar(),
       endDrawer: Setting(widget.user),
-      // endDrawer: Setting(widget: widget, context: context, user: user, _bio: _bio, dataService: dataService, _username: _username, _password: _password, _email: _email, noti: noti),
     );
   }
 
