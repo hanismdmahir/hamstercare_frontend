@@ -14,9 +14,6 @@ class RestService {
   }
 
   RestService._constructor();
-  //---------------------------- end of singleton implementation
-
-  // : change the baseUrl to your own REST API service hosted on Firebase (or heroku)
 
   static const String baseUrl =
       //need to change it

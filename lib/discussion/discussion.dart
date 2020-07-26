@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hamstercare/add/add.dart';
-import 'package:hamstercare/models/mock_feed.dart';
+//import 'package:hamstercare/models/mock_feed.dart';
 //import 'package:hamstercare/models/reminder.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/userProfile/userProfile.dart';
 import '../feed/feed.dart';
-import 'package:hamstercare/models/mock_user.dart';
+//import 'package:hamstercare/models/mock_user.dart';
 import '../reminder/reminderscreen.dart';
 import '../userProfile/userProfile.dart';
 
@@ -62,32 +62,32 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => FeedNews(feed, widget.user)));
+                      builder: (context) => FeedNews(widget.user)));
               break;
             case 1:
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DiscussionScreen(mockUser[0])));
+                      builder: (context) => DiscussionScreen(widget.user)));
               break;
             case 2:
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AddScreen(mockUser[0])));
+                      builder: (context) => AddScreen(widget.user)));
               break;
             case 3:
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ReminderScreen(mockUser[0]),
+                    builder: (context) => ReminderScreen(widget.user),
                   ));
               break;
             case 4:
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProfilePage(mockUser[0]),
+                    builder: (context) => ProfilePage(widget.user),
                   ));
               break;
           }

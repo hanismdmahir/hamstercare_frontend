@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hamstercare/feed/feed.dart';
 import 'package:hamstercare/login/signup.dart';
-import 'package:hamstercare/models/mock_feed.dart';
+//import 'package:hamstercare/models/mock_feed.dart';
 //import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/services/auth_services.dart';
@@ -22,6 +22,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String get username => LoginPage._user.text;
   List<User> alluser;
+  User user;
 
   String get password => LoginPage._pass.text;
   final dataService = UserDataService();
@@ -148,14 +149,14 @@ class _LoginPageState extends State<LoginPage> {
                             for (var i = 0; i < alluser.length; i++) {
                               if (username == alluser[i].username &&
                                   password == alluser[i].password) {
+                                user = alluser[i];
                                 login = true;
                                 LoginPage._user.clear();
                                 LoginPage._pass.clear();
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          FeedNews(feed, alluser[0]),
+                                      builder: (context) => FeedNews(user),
 
                                       // _showSnackBar
                                     ));
@@ -230,7 +231,7 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             CircularProgressIndicator(),
             SizedBox(height: 50),
-            Text('Fetching User... Please wait'),
+            Text('Fetching Data... Please wait'),
           ],
         ),
       ),

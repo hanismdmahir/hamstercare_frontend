@@ -31,8 +31,8 @@ class Gallery {
           userName: json['userName'],
           userImage: json['userImage'],
           feedImage: json['feedImage'],
-          feedText: json['feedText'],
           feedTime: json['feedTime'],
+          feedText: json['feedText'],
           like: json['like'],
         );
 }

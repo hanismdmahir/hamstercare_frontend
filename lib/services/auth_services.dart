@@ -40,16 +40,25 @@ class UserDataService {
     return User.fromJson(json);
   }
 
-  // : You may need to provide the REST calls for the followings:
-  //        Get a quote for a given id
-  Future<User> getQuote({String id, User username}) async {
-    final json = await rest.get('user/$id');
+  Future<User> newName({String id, User name}) async {
+    final json =
+        await rest.patch('user/$id', data: {"username": name.username});
     return User.fromJson(json);
   }
 
-  //        Update a quote for a given id
-  Future<User> updateQuote({String id, User quote}) async {
-    final json = await rest.patch('user/$id', data: quote);
+  Future<User> newPass({String id, User pass}) async {
+    final json =
+        await rest.patch('user/$id', data: {"password": pass.password});
     return User.fromJson(json);
   }
-} // class Quote
+
+  Future<User> newBio({String id, User bio}) async {
+    final json = await rest.patch('user/$id', data: {"bio": bio.bio});
+    return User.fromJson(json);
+  }
+
+  Future<User> newEmail({String id, User email}) async {
+    final json = await rest.patch('user/$id', data: {"email": email.email});
+    return User.fromJson(json);
+  }
+}

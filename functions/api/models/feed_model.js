@@ -12,6 +12,10 @@ class FeedModel {
     return database.getList("gallery");
   }
 
+  create(gallery) {
+    return database.create("gallery", gallery);
+  }
+
   delete(id) {
     return database.delete("gallery", id);
   }

@@ -3,7 +3,7 @@ import 'package:hamstercare/add/add.dart';
 import 'package:hamstercare/discussion/discussion.dart';
 import 'package:hamstercare/models/gallery.dart';
 //import 'package:hamstercare/models/mock_feed.dart';
-import 'package:hamstercare/models/mock_user.dart';
+//import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/reminder/reminderscreen.dart';
 import 'package:hamstercare/userProfile/userProfile.dart';
@@ -11,10 +11,10 @@ import 'package:hamstercare/userProfile/userProfile.dart';
 import '../services/feedback_service.dart';
 
 class FeedNews extends StatefulWidget {
-  final List<Gallery> feed;
+  //final List<Gallery> feed;
   final User user;
 
-  FeedNews(this.feed, this.user);
+  FeedNews(this.user);
 
   @override
   _FeedNewsState createState() => _FeedNewsState();
@@ -38,27 +38,27 @@ class _FeedNewsState extends State<FeedNews> {
 
   final _caption = TextEditingController();
 
-  void _editCaption(int index) {
-    setState(() {
-      Gallery g = Gallery.copy(widget.feed[index]);
-      g.feedText = _caption.text;
-      widget.feed[index].feedText = g.feedText;
-    });
-  }
+  // void _editCaption(int index) {
+  //   setState(() {
+  //     Gallery g = Gallery.copy(widget.feed[index]);
+  //     g.feedText = _caption.text;
+  //     widget.feed[index].feedText = g.feedText;
+  //   });
+  // }
 
-  void _deletePost(int index) {
-    setState(() {
-      int j;
-      for (var i = 0; i < widget.user.photoUrl.length; i++) {
-        if (widget.feed[index].feedImage == widget.user.photoUrl[i].feedImage) {
-          j = i;
-        }
-      }
+  // void _deletePost(int index) {
+  //   setState(() {
+  //     int j;
+  //     for (var i = 0; i < widget.user.photoUrl.length; i++) {
+  //       if (widget.feed[index].feedImage == widget.user.photoUrl[i].feedImage) {
+  //         j = i;
+  //       }
+  //     }
 
-      widget.user.photoUrl.removeAt(j);
-      widget.feed.removeAt(index);
-    });
-  }
+  //     widget.user.photoUrl.removeAt(j);
+  //     widget.feed.removeAt(index);
+  //   });
+  // }
 
   int _currentIndex = 0;
 
@@ -66,50 +66,6 @@ class _FeedNewsState extends State<FeedNews> {
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: buildBottomNavigationBar(),
-      // appBar: AppBar(
-      //   backgroundColor: Colors.orange,
-      //   leading: Icon(Icons.announcement),
-      //   title:
-      // //   Column(
-      // //   crossAxisAlignment: CrossAxisAlignment.start,
-      // //   children: <Widget>[
-      // //     Container(
-      // //       height: 100,
-      // //       padding: EdgeInsets.only(
-      // //         right: 10,
-      // //         left: 10,
-      // //         bottom: 10,
-      // //         top: 40,
-      // //       ),
-      // //       child: Row(
-      // //         children: <Widget>[
-      // //           Expanded(
-      // //               child: Container(
-      // //             decoration: BoxDecoration(
-      // //               borderRadius: BorderRadius.circular(50),
-      // //               color: Colors.grey[200],
-      // //             ),
-      // //             child: TextField(
-      // //               decoration: InputDecoration(
-      // //                 prefixIcon: Icon(Icons.search, color: Colors.grey),
-      // //                 border: InputBorder.none,
-      // //                 hintStyle: TextStyle(color: Colors.grey),
-      // //                 hintText: "Search",
-      // //               ),
-      // //             ),
-      // //           ))
-      // //         ],
-      // //       ),
-      // //     )
-      // //   ],
-      // // ),
-      //   // Row(
-      //   //   mainAxisAlignment: MainAxisAlignment.center,
-      //   //   children: <Widget>[
-      //   //     Text('HamsterCare'),
-      //   //   ],
-      //   // ),
-      // ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -251,9 +207,9 @@ class _FeedNewsState extends State<FeedNews> {
                                     FlatButton(
                                       child: Text('Edit Caption'),
                                       onPressed: () {
-                                        _editCaption(index);
-                                        _caption.clear();
-                                        Navigator.of(context).pop(widget.feed);
+                                        // _editCaption(index);
+                                        // _caption.clear();
+                                        //Navigator.of(context).pop(widget.feed);
                                       },
                                     ),
                                     FlatButton(
@@ -266,7 +222,7 @@ class _FeedNewsState extends State<FeedNews> {
                                 );
                               });
                         } else {
-                          _deletePost(index);
+                          //_deletePost(index);
                         }
                       },
                       itemBuilder: (context) => [
@@ -536,32 +492,32 @@ class _FeedNewsState extends State<FeedNews> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => FeedNews(feed, widget.user)));
+                      builder: (context) => FeedNews(widget.user)));
               break;
             case 1:
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DiscussionScreen(mockUser[0])));
+                      builder: (context) => DiscussionScreen(widget.user)));
               break;
             case 2:
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AddScreen(mockUser[0])));
+                      builder: (context) => AddScreen(widget.user)));
               break;
             case 3:
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ReminderScreen(mockUser[0]),
+                    builder: (context) => ReminderScreen(widget.user),
                   ));
               break;
             case 4:
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProfilePage(mockUser[0]),
+                    builder: (context) => ProfilePage(widget.user),
                   ));
               break;
           }

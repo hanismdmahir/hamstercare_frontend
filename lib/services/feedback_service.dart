@@ -27,13 +27,23 @@ class FeedbackDataService {
         .toList();
   }
 
-  // // You may not need this REST call in your app. It is only for example here.
-  // Future<User> createUser(
-  //     {String username, String email, String password}) async {
-  //   final json = await rest.post('user',
-  //       data: {'username': username, 'email': email, 'password': password});
-  //   return User.fromJson(json);
-  // }
+  Future<Gallery> createGallery(
+      {String userName,
+      String userImage,
+      String feedImage,
+      String feedTime,
+      String feedText,
+      int like}) async {
+    final json = await rest.post('gallery', data: {
+      'userName': userName,
+      'userImage': userImage,
+      'feedImage': feedImage,
+      'feedTime': feedTime,
+      'feedText': feedText,
+      'like': like
+    });
+    return Gallery.fromJson(json);
+  }
 
   // // : You may need to provide the REST calls for the followings:
   // //        Get a quote for a given id
