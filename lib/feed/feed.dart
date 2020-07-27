@@ -465,32 +465,32 @@ class _FeedNewsState extends State<FeedNews> {
         onTap: (index) {
           switch (index) {
             case 0:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => FeedNews(widget.user)));
               break;
             case 1:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => DiscussionScreen(widget.user)));
               break;
             case 2:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => AddScreen(widget.user)));
               break;
             case 3:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ReminderScreen(widget.user),
                   ));
               break;
             case 4:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProfilePage(widget.user),

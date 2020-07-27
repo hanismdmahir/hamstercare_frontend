@@ -64,7 +64,7 @@ class _HamsterBiodataState extends State<HamsterBiodata> {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(widget.user.pet[widget.indexHam].photo),
+                  image: (widget.user.pet[widget.indexHam].photo != null) ? AssetImage(widget.user.pet[widget.indexHam].photo) : AssetImage('assets/pic3.jpg'),
                   fit:BoxFit.cover,
                   ) ,
                 border: Border.all(

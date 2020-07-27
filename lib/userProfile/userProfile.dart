@@ -259,7 +259,7 @@ class _ProfilePageState extends State<ProfilePage> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text(widget.user.bio),
+            Text((widget.user.bio != null)?widget.user.bio:''),
           ],
         ),
       ],
@@ -272,7 +272,7 @@ class _ProfilePageState extends State<ProfilePage> {
         CircleAvatar(
           radius: 50.0,
           backgroundColor: Colors.grey,
-          backgroundImage: AssetImage(widget.user.profilephoto),
+          backgroundImage: (widget.user.profilephoto != null) ? AssetImage(widget.user.profilephoto) : AssetImage('assets/profilePic/default.png'),
         ),
         Expanded(
             flex: 1,
@@ -315,7 +315,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            widget.user.follower.toString(),
+                            (widget.user.follower != null)?widget.user.follower.toString(): '0',
                             style: TextStyle(
                                 fontSize: 22.0, fontWeight: FontWeight.bold),
                           ),
@@ -343,7 +343,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            widget.user.following.toString(),
+                            (widget.user.follower != null)?widget.user.following.toString():'0',
                             style: TextStyle(
                                 fontSize: 22.0, fontWeight: FontWeight.bold),
                           ),
@@ -485,7 +485,7 @@ class CustomDialog extends StatelessWidget {
                     alignment: Alignment.bottomRight,
                     child: FlatButton(
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             new MaterialPageRoute(
                               builder: (context) => LoginPage(),

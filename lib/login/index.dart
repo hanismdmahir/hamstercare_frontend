@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                                 login = true;
                                 LoginPage._user.clear();
                                 LoginPage._pass.clear();
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => FeedNews(user),

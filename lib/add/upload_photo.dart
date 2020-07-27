@@ -3,6 +3,7 @@ import 'package:hamstercare/add/choose_photo.dart';
 import 'package:hamstercare/models/gallery.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/services/feedback_service.dart';
+import 'package:hamstercare/userProfile/userProfile.dart';
 
 class UploadPhoto extends StatefulWidget {
   final User user;
@@ -13,23 +14,12 @@ class UploadPhoto extends StatefulWidget {
 }
 
 class _UploadPhotoState extends State<UploadPhoto> {
-  void _navigate(index) async {
-    final returnData = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Choose(),
-      ),
-    );
-
-    if (returnData != null) {
-      setState(() => photo = returnData);
-    }
-  }
+  
 
   final TextEditingController _controller = TextEditingController();
   final dataService = FeedbackDataService();
   Gallery theFeed;
-  String photo;
+  String photo = 'assets/feed4.jpg';
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +42,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   IconButton(
-                    onPressed: () {
-                      _navigate(context);
-                    },
+                    onPressed: () {},
                     icon: Icon(
                       Icons.photo_library,
                       size: 26,
@@ -87,7 +75,13 @@ class _UploadPhotoState extends State<UploadPhoto> {
                   feedText: _controller.text,
                   like: 5,
                 );
+
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfilePage(widget.user)));
               },
+              
               child: Text(
                 'Share',
                 style: TextStyle(

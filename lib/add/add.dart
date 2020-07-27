@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/add/upload_photo.dart';
 import 'package:hamstercare/discussion/discussion.dart';
 import 'package:hamstercare/services/hamster_services.dart';
 import 'package:hamstercare/services/qna_services.dart';
@@ -20,6 +21,7 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
+  
   final TextEditingController _name = new TextEditingController();
   final TextEditingController _gender = new TextEditingController();
   final TextEditingController _bod = new TextEditingController();
@@ -142,7 +144,7 @@ class _AddScreenState extends State<AddScreen> {
               body: TabBarView(
                 children: [
                   // UploadPhoto(_color: _color, _text: _text, _controller: _controller, dataService: dataService, user: widget.user),
-                  //UploadPhoto(widget.user),
+                  UploadPhoto(widget.user),
                   _addHamster(),
                   _askQuestion(),
                 ],

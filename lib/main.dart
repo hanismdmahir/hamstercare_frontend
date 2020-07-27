@@ -21,10 +21,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SplashScreen(),
-      routes: <String, WidgetBuilder>{
-        '/LoginPage': (BuildContext context) => new LoginPage(),
-      },
+      home: SplashScreen()
+      //routes: <String, WidgetBuilder>{
+      //  '/LoginPage': (BuildContext context) => new LoginPage(),
+      //},
     );
   }
 }
