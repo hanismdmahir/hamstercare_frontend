@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hamstercare/models/reminder.dart';
 import 'package:hamstercare/models/user.dart';
+import 'package:hamstercare/services/reminder_services.dart';
 
 
 class AddReminderScreen extends StatefulWidget {
@@ -15,7 +16,8 @@ class AddReminderScreen extends StatefulWidget {
 }
 
 class _AddReminderScreenState extends State<AddReminderScreen> {
-  
+  List<Reminder> reminder;
+  final dataService = ReminderDataService();
   DateTime pickedDate;
   TimeOfDay time;
   final _title = TextEditingController();
@@ -30,8 +32,8 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
     if(widget.type == "edit"){
       _title.text = widget.user.reminder[widget.indx].title;
       _note.text = widget.user.reminder[widget.indx].note;
-      pickedDate = widget.user.reminder[widget.indx].date ;
-      time= widget.user.reminder[widget.indx].time;
+      pickedDate = DateTime.parse(widget.user.reminder[widget.indx].date) ;
+      time=  TimeOfDay(hour:int.parse(widget.user.reminder[widget.indx].time.split(":")[0]),minute: int.parse(widget.user.reminder[widget.indx].time.split(":")[1])) ;
     }
   }
   
@@ -63,11 +65,15 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
       });
   }
 
-  void _addReminder(String title, DateTime date, TimeOfDay time, String note, bool repeat){
+  void _addReminder(String title, String date, String time, String note, bool repeat){
     setState(() {
-      User _user = User.copy(widget.user);
-      _user.reminder.add(Reminder(date:date , time: time ,note:note ,title: title ,repeated: repeat));
-      widget.user.reminder = _user.reminder;
+      date = date.substring(0,10);
+      time = time.substring(10,15);
+      dataService.createReminder(date,time,title,note,repeat,widget.user.username);
+      //User _user = User.copy(widget.user);
+      //_user.reminder.add(Reminder(date:date , time: time ,note:note ,title: title ,repeated: repeat));
+      //= _user.reminder;
+      widget.user.reminder.add(Reminder(date:date , time: time ,note:note ,title: title ,repeated: repeat, username:widget.user.username));
     });
 
   }
@@ -97,18 +103,23 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
       });
   }
 
-  void _editReminder(int index,String title, DateTime date, TimeOfDay time, String note, bool repeat){
+  void _editReminder(int index,String title, String date, String time, String note, bool repeat){
     setState(() {
       Reminder r = Reminder.copy(widget.user.reminder[index]);
       
       r.title = title;
-      r.date = date;
-      r.time = time;
+      r.date = date.substring(0,10);
+      r.time = time.substring(10,15);
       r.note = note;
       r.repeated = repeat;
+      r.username = widget.user.username;
 
+      dataService.updateReminder(id: widget.user.reminder[index].id, q: r);
+
+      print(widget.user.reminder[index]);
       widget.user.reminder.removeAt(index);
       widget.user.reminder.insert(index, r);
+      print(widget.user.reminder[index]);
     });
 
   }
@@ -191,30 +202,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                           ),
                         ),
                         
-                        /*DropdownButton<int>(
-                            value: 4,
-                            items: [
-                              DropdownMenuItem(
-                                child: Text("9.00 am"),
-                                value: 4,
-                              ),
-                              DropdownMenuItem(
-                                child: Text("3.00 pm"),
-                                value: 3,
-                              ),
-                              DropdownMenuItem(
-                                child: Text("6.00 pm"),
-                                value: 2,
-                              ),
-                              DropdownMenuItem(
-                                child: Text("9.00 pm"),
-                                value: 1,
-                              ),
-                            ],
-                            onChanged: (newValue) {}),
-                        SizedBox(width: 60),*/
-
-                        //Dropdown date
+                       
 
                         Card(
                           elevation: 0,
@@ -228,28 +216,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                             ]
                           ),
                         ),
-                        /*DropdownButton<int>(
-                            isDense: true,
-                            value: 4,
-                            items: [
-                              DropdownMenuItem(
-                                child: Text("11/5/2019"),
-                                value: 4,
-                              ),
-                              DropdownMenuItem(
-                                child: Text("12/5/2019"),
-                                value: 3,
-                              ),
-                              DropdownMenuItem(
-                                child: Text("11/5/2019"),
-                                value: 2,
-                              ),
-                              DropdownMenuItem(
-                                child: Text("11/5/2019"),
-                                value: 1,
-                              ),
-                            ],
-                            onChanged: (newValue) {}),*/
+                      
                       ],
                     ),
 
@@ -302,7 +269,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16)),
                         onPressed: () {
-                          _addReminder(_title.text, pickedDate, time, _note.text, repeat);
+                          _addReminder(_title.text, pickedDate.toString(), time.toString(), _note.text, repeat);
                             
                           Navigator.of(context).pop(widget.user.reminder);
                         },
@@ -387,7 +354,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                               Text("${time.hour}:${time.minute}"),
                               IconButton(
                                 icon: Icon(Icons.arrow_drop_down),
-                                onPressed: ()=> _pickEditTime(widget.user.reminder[widget.indx].time),
+                                onPressed: ()=> _pickEditTime(TimeOfDay(hour:int.parse(widget.user.reminder[widget.indx].time.split(":")[0]),minute: int.parse(widget.user.reminder[widget.indx].time.split(":")[1]))),
                                 )
                             ]
                           ),
@@ -402,7 +369,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                               Text("${pickedDate.day}/${pickedDate.month}/${pickedDate.year}"),
                               IconButton(
                                 icon: Icon(Icons.arrow_drop_down),
-                                onPressed: () => _pickEditDate(widget.user.reminder[widget.indx].date),
+                                onPressed: () => _pickEditDate(pickedDate),
                                 )
                             ]
                           ),
@@ -459,7 +426,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16)),
                         onPressed: () {
-                          _editReminder(widget.indx,_title.text, pickedDate, time, _note.text, repeatEdit);
+                          _editReminder(widget.indx,_title.text, pickedDate.toString(), time.toString(), _note.text, repeatEdit);
                             
                           Navigator.of(context).pop(widget.user.reminder);
                         },

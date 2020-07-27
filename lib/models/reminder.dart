@@ -1,20 +1,22 @@
-import 'package:flutter/material.dart';
+
 
 class Reminder {
-  DateTime date;
-  TimeOfDay time;
+  String  date;
+  String time;
   String title;
   String note;
   bool repeated;
+  String id;
+  String username;
 
-  Reminder({this.date,this.time,this.title,this.note,this.repeated});
+  Reminder({this.date,this.time,this.title,this.note,this.repeated, this.id,this.username});
 
-  set setDate(DateTime d)
+  set setDate(String d)
   {
     date = d;
   }
 
-  set setTime(TimeOfDay t)
+  set setTime(String t)
   {
     time=t;
   }
@@ -42,5 +44,23 @@ class Reminder {
     repeated: from.repeated
   );
 
+ Reminder.fromJson(Map<String, dynamic> json)
+ : this(
+   id: json['id'],
+   date: json['date'],
+   time: json['time'],
+   title: json['title'],
+   note: json['note'],
+   repeated: json['repeated'],
+   username: json['username']
+  );
 
+  Map<String, dynamic> toJson() => {
+  'date': date,
+   'time': time,
+   'title': title,
+   'note': note,
+   'repeated': repeated,
+   'username' : username
+  };
 }
