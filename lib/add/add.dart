@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-//import 'package:hamstercare/add/upload_photo.dart';
 import 'package:hamstercare/discussion/discussion.dart';
+import 'package:hamstercare/services/hamster_services.dart';
+import 'package:hamstercare/services/qna_services.dart';
 
 import '../feed/feed.dart';
-//import '../models/mock_feed.dart';
-//import '../models/mock_user.dart';
 import '../models/user.dart';
 import '../reminder/reminderscreen.dart';
 import '../userProfile/userProfile.dart';
@@ -21,6 +20,32 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
+  final TextEditingController _name = new TextEditingController();
+  final TextEditingController _gender = new TextEditingController();
+  final TextEditingController _bod = new TextEditingController();
+  final TextEditingController _ni = new TextEditingController();
+  final TextEditingController _color = new TextEditingController();
+  final TextEditingController _breed = new TextEditingController();
+  final TextEditingController _desc = new TextEditingController();
+  final TextEditingController _qtitle = new TextEditingController();
+  final TextEditingController _qdesc = new TextEditingController();
+
+  String get name => _name.text;
+  String get gender => _gender.text;
+  String get bod => _bod.text;
+  String get ni => _ni.text;
+  String get color => _color.text;
+  String get breed => _breed.text;
+  String get desc => _desc.text;
+  String get username => widget.user.username;
+  String get qdesc => _qdesc.text;
+  String get qtitle => _qtitle.text;
+
+  final dataService1 = HamsterDataService();
+  final dataService2 = QnADataService();
+
+  int _currentIndex = 2;
+
   //var myController = TextEditingController();
   final dataService = FeedbackDataService();
   Gallery theFeed;
@@ -39,6 +64,7 @@ class _AddScreenState extends State<AddScreen> {
     return BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
+        currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.photo_library),
@@ -64,32 +90,32 @@ class _AddScreenState extends State<AddScreen> {
         onTap: (index) {
           switch (index) {
             case 0:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => FeedNews(widget.user)));
               break;
             case 1:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => DiscussionScreen(widget.user)));
               break;
             case 2:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => AddScreen(widget.user)));
               break;
             case 3:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ReminderScreen(widget.user),
                   ));
               break;
             case 4:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProfilePage(widget.user),
@@ -131,16 +157,30 @@ class _AddScreenState extends State<AddScreen> {
       child: Column(
         children: <Widget>[
           TextField(
-            style: TextStyle(fontSize: 12, height: 3.0),
+            controller: _qtitle,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
-              hintText: 'Ask anything',
+              hintText: 'Title...',
+            ),
+          ),
+          Divider(),
+          TextField(
+            controller: _qdesc,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Description...',
             ),
           ),
           Center(
             child: RaisedButton(
               color: Colors.orange,
-              onPressed: () {},
+              onPressed: () async {
+                await dataService2.createQuestion(qtitle, qdesc, username);
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DiscussionScreen(widget.user)));
+              },
               child: Text(
                 'Post',
                 style: TextStyle(
@@ -174,6 +214,7 @@ class _AddScreenState extends State<AddScreen> {
             ),
           ),
           TextField(
+            controller: _name,
             style: TextStyle(fontSize: 12),
             decoration: InputDecoration(
               border: OutlineInputBorder(),
@@ -182,6 +223,7 @@ class _AddScreenState extends State<AddScreen> {
           ),
           Divider(),
           TextField(
+            controller: _gender,
             style: TextStyle(fontSize: 12),
             decoration: InputDecoration(
               border: OutlineInputBorder(),
@@ -190,6 +232,7 @@ class _AddScreenState extends State<AddScreen> {
           ),
           Divider(),
           TextField(
+            controller: _bod,
             style: TextStyle(fontSize: 12),
             decoration: InputDecoration(
               border: OutlineInputBorder(),
@@ -198,6 +241,7 @@ class _AddScreenState extends State<AddScreen> {
           ),
           Divider(),
           TextField(
+            controller: _ni,
             style: TextStyle(fontSize: 12),
             decoration: InputDecoration(
               border: OutlineInputBorder(),
@@ -206,6 +250,7 @@ class _AddScreenState extends State<AddScreen> {
           ),
           Divider(),
           TextField(
+            controller: _color,
             style: TextStyle(fontSize: 12),
             decoration: InputDecoration(
               border: OutlineInputBorder(),
@@ -214,6 +259,7 @@ class _AddScreenState extends State<AddScreen> {
           ),
           Divider(),
           TextField(
+            controller: _breed,
             style: TextStyle(fontSize: 12),
             decoration: InputDecoration(
               border: OutlineInputBorder(),
@@ -222,6 +268,7 @@ class _AddScreenState extends State<AddScreen> {
           ),
           Divider(),
           TextField(
+            controller: _desc,
             style: TextStyle(fontSize: 12, height: 3.0),
             decoration: InputDecoration(
               border: OutlineInputBorder(),
@@ -231,7 +278,23 @@ class _AddScreenState extends State<AddScreen> {
           Center(
             child: RaisedButton(
               color: Colors.orange,
-              onPressed: () {},
+              onPressed: () async {
+                await dataService1.createHamster(
+                    name: name,
+                    photo: null,
+                    gender: gender,
+                    bod: bod,
+                    color: color,
+                    desc: desc,
+                    breed: breed,
+                    ni: ni,
+                    username: username);
+
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfilePage(widget.user)));
+              },
               child: Text(
                 'Add',
                 style: TextStyle(

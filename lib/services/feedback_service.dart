@@ -45,16 +45,7 @@ class FeedbackDataService {
     return Gallery.fromJson(json);
   }
 
-  // // : You may need to provide the REST calls for the followings:
-  // //        Get a quote for a given id
-  // Future<User> getQuote({String id, User username}) async {
-  //   final json = await rest.get('user/$id');
-  //   return User.fromJson(json);
-  // }
-
-  // //        Update a quote for a given id
-  // Future<User> updateQuote({String id, User quote}) async {
-  //   final json = await rest.patch('user/$id', data: quote);
-  //   return User.fromJson(json);
-  // }
-} // class Quote
+  void deleteGallery({String id}) async {
+    await rest.delete('gallery/$id');
+  }
+}

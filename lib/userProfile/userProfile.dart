@@ -3,14 +3,15 @@ import 'package:hamstercare/add/add.dart';
 import 'package:hamstercare/discussion/discussion.dart';
 import 'package:hamstercare/feed/feed.dart';
 import 'package:hamstercare/login/index.dart';
-// import 'package:hamstercare/models/mock_feed.dart';
-// import 'package:hamstercare/models/mock_user.dart';
+import 'package:hamstercare/models/gallery.dart';
+import 'package:hamstercare/models/hamster.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/reminder/reminderscreen.dart';
-import 'package:hamstercare/setting/setting.dart';
+import 'package:hamstercare/services/feedback_service.dart';
+import 'package:hamstercare/services/hamster_services.dart';
 import 'package:hamstercare/userProfile/editHamster.dart';
-//import '../services/auth_services.dart';
-import '../models/user.dart';
+
+import '../setting/setting.dart';
 
 final Color darkBlue = Color.fromARGB(255, 18, 32, 47);
 
@@ -23,14 +24,90 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  List<Hamster> hamster = List<Hamster>();
+  List<Gallery> gallery = List<Gallery>();
+  final dataService1 = HamsterDataService();
+  final dataService2 = FeedbackDataService();
+
+ 
+
+  void _deleteImage(int index) {
+    dataService2.deleteGallery(id: widget.user.photoUrl[index].id);
+    setState(() {
+      widget.user.photoUrl.removeAt(index);
+    });
+  }
+
+  void _deletePet(int index) {
+    dataService1.deleteHamster(id:widget.user.pet[index].id);
+    setState(() {
+      widget.user.pet.removeAt(index);
+    });
+  }
+
+  int _currentIndex = 4;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: buildAppBar(),
-      bottomNavigationBar: buildBottomNavigationBar(),
-      endDrawer: Setting(widget.user),
-    );
+    
+    return FutureBuilder(
+      future: Future.wait([dataService1.getAllHamster(), dataService2.getGallery()]),
+      builder: (context,snapshot) {
+        if(snapshot.hasData){
+          hamster = snapshot.data[0];
+          gallery = snapshot.data[1];
+
+          widget.user.pet = [];
+          widget.user.photoUrl = [];
+
+          for (var i = 0; i < hamster.length ; i++) {
+            if(hamster[i].username == widget.user.username)
+            {
+              Hamster ham =hamster[i];
+              widget.user.pet.add(ham);
+
+            }
+            
+          }
+
+          for (var i = 0; i < gallery.length; i++) {
+            if(gallery[i].userName == widget.user.username)
+            {
+              
+              Gallery gal = gallery[i];
+              widget.user.photoUrl.add(gal);
+            }
+          }
+
+          return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: buildAppBar(),
+            body: buildListView(),
+            bottomNavigationBar: buildBottomNavigationBar(),
+            endDrawer: Setting(widget.user),
+          );
+        
+        }
+
+        else{
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator(),
+                  SizedBox(height: 50),
+                  Text('Fetching from DB... Please wait'),
+                ],
+              ),
+            ),
+          );
+        }
+      },
+      );
+    
+    
   }
 
   AppBar buildAppBar() {
@@ -51,7 +128,7 @@ class _ProfilePageState extends State<ProfilePage> {
       Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-            //buildProfileInfo(),
+            buildProfileInfo(),
 
             SizedBox(
               height: 10,
@@ -87,7 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
       height: 110,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          //itemCount: widget.user.pet.length,
+          itemCount: widget.user.pet.length,
           itemBuilder: (context, index) => Container(
                 margin: EdgeInsets.all(10),
                 child: InkWell(
@@ -106,21 +183,21 @@ class _ProfilePageState extends State<ProfilePage> {
                             FlatButton(
                                 child: Text('Remove'),
                                 onPressed: () {
-                                  // _deletePet(index);
-                                  // Navigator.of(context).pop(widget.user);
+                                  _deletePet(index);
+                                  Navigator.of(context).pop(widget.user);
                                 }),
                           ],
                         );
                       }),
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => HamsterBiodata())),
+                      builder: (context) => HamsterBiodata(widget.user, index))),
                   child: Column(
                     children: <Widget>[
                       CircleAvatar(
                         radius: 30.0,
                         backgroundColor: Colors.grey,
-                        backgroundImage:
-                            AssetImage(widget.user.pet[index].photo),
+                        backgroundImage:(widget.user.pet[index].photo != null)?
+                        AssetImage(widget.user.pet[index].photo) : AssetImage('assets/pic3.jpg'),
                       ),
                       SizedBox(
                         height: 6,
@@ -160,8 +237,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         FlatButton(
                             child: Text('Delete'),
                             onPressed: () {
-                              // _deleteImage(index);
-                              // Navigator.of(context).pop(widget.user);
+                              _deleteImage(index);
+                              Navigator.of(context).pop(widget.user);
                             }),
                       ],
                     );
@@ -210,7 +287,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            widget.user.post.toString(),
+                            widget.user.photoUrl.length.toString(),
                             style: TextStyle(
                                 fontSize: 22.0, fontWeight: FontWeight.bold),
                           ),
@@ -296,6 +373,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
+        currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.photo_library),
@@ -321,38 +399,24 @@ class _ProfilePageState extends State<ProfilePage> {
         onTap: (index) {
           switch (index) {
             case 0:
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => FeedNews(widget.user)));
-              break;
-            case 1:
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DiscussionScreen(widget.user)));
-              break;
-            case 2:
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AddScreen(widget.user)));
-              break;
-            case 3:
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ReminderScreen(widget.user),
-                  ));
-              break;
-            case 4:
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfilePage(widget.user),
-                  ));
-              break;
+              Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => FeedNews(widget.user)));
+             break;
+             case 1:
+              Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => DiscussionScreen(widget.user)));
+             break;
+             case 2:
+              Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => AddScreen(widget.user)));
+             break;
+             case 3:
+             Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => ReminderScreen(widget.user),));
+             break;
+             case 4:
+             Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => ProfilePage(widget.user),));
+             break;
           }
+          setState(() {
+            _currentIndex = index;
+          });
         });
   }
 }

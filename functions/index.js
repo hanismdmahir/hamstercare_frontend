@@ -8,6 +8,7 @@ const feedRouter = require("./api/controllers/feed_controller");
 const questRouter = require("./api/controllers/question_controller");
 const ansRouter = require("./api/controllers/answer_controller");
 const reminderRouter = require("./api/controllers/reminder_controller");
+const petRouter = require("./api/controllers/pet_controller");
 
 app.use(express.json());
 app.use("/todos", todosRouter);
@@ -16,6 +17,7 @@ app.use("/gallery", feedRouter);
 app.use("/question", questRouter);
 app.use("/answer", ansRouter);
 app.use("/reminder", reminderRouter);
+app.use("/hamster", petRouter);
 
 exports.api = functions.https.onRequest(app);
 

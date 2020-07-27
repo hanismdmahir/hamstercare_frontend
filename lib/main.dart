@@ -22,12 +22,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: SplashScreen(),
-      //home: ProfilePage(mockUser[0]),
-      //home: SignUp(),
-      //home: FeedNews(feed,mockUser[0]),
-      //home: ReminderScreen(mockUser[0]),
-      //home: ReminderScreen(),
-      //home: AddReminderScreen(),
       routes: <String, WidgetBuilder>{
         '/LoginPage': (BuildContext context) => new LoginPage(),
       },

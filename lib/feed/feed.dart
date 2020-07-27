@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hamstercare/add/add.dart';
 import 'package:hamstercare/discussion/discussion.dart';
 import 'package:hamstercare/models/gallery.dart';
-//import 'package:hamstercare/models/mock_feed.dart';
-//import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/reminder/reminderscreen.dart';
 import 'package:hamstercare/userProfile/userProfile.dart';
@@ -37,28 +35,6 @@ class _FeedNewsState extends State<FeedNews> {
   }
 
   final _caption = TextEditingController();
-
-  // void _editCaption(int index) {
-  //   setState(() {
-  //     Gallery g = Gallery.copy(widget.feed[index]);
-  //     g.feedText = _caption.text;
-  //     widget.feed[index].feedText = g.feedText;
-  //   });
-  // }
-
-  // void _deletePost(int index) {
-  //   setState(() {
-  //     int j;
-  //     for (var i = 0; i < widget.user.photoUrl.length; i++) {
-  //       if (widget.feed[index].feedImage == widget.user.photoUrl[i].feedImage) {
-  //         j = i;
-  //       }
-  //     }
-
-  //     widget.user.photoUrl.removeAt(j);
-  //     widget.feed.removeAt(index);
-  //   });
-  // }
 
   int _currentIndex = 0;
 

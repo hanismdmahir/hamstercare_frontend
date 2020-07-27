@@ -12,9 +12,9 @@ class User {
   int follower;
   int following;
   String id;
-  List<Reminder> reminder;
-  List<Hamster> pet;
-  List<Gallery> photoUrl;
+  List<Reminder> reminder =[];
+  List<Hamster> pet =[];
+  List<Gallery> photoUrl =[];
 
   User(
       {this.email,
@@ -50,20 +50,6 @@ class User {
 
   User.fromJson(Map<String, dynamic> json)
       : this(
-<<<<<<< HEAD
-            email: json['email'],
-            username: json['username'],
-            password: json['password'],
-            bio: json['bio'],
-            profilephoto: json['profilephoto'],
-            post: json['post'],
-            follower: json['follower'],
-            following: json['following']
-            // reminder: [...json['reminder']],
-            // pet: [...json['pet']],
-            // photoUrl: [...json['photoUrl']]
-            );
-=======
           email: json['email'],
           username: json['username'],
           password: json['password'],
@@ -74,7 +60,6 @@ class User {
           following: json['following'],
           id: json['id'],
         );
->>>>>>> feedback
 
   Map<String, dynamic> toJson() => {
         'email': email,

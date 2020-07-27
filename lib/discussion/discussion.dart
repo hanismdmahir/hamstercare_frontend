@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hamstercare/add/add.dart';
-//import 'package:hamstercare/models/mock_feed.dart';
-//import 'package:hamstercare/models/reminder.dart';
+import 'package:hamstercare/models/answer.dart';
+import 'package:hamstercare/models/question.dart';
 import 'package:hamstercare/models/user.dart';
+import 'package:hamstercare/services/qna_services.dart';
 import 'package:hamstercare/userProfile/userProfile.dart';
 import '../feed/feed.dart';
-//import 'package:hamstercare/models/mock_user.dart';
 import '../reminder/reminderscreen.dart';
 import '../userProfile/userProfile.dart';
 
@@ -19,13 +19,68 @@ class DiscussionScreen extends StatefulWidget {
 }
 
 class _DiscussionScreenState extends State<DiscussionScreen> {
+  List<TextEditingController> _answer = [];
+  List<Question> quest = List<Question>();
+  List<Answer> ans = List<Answer>();
+  final dataService = QnADataService();
   int _currentIndex = 1;
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+        future:
+            Future.wait([dataService.getQuestion(), dataService.getAnswer()]),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            quest = snapshot.data[0];
+            for (int i = 0; i < quest.length; i++)
+              _answer.add(TextEditingController());
+            ans = snapshot.data[1];
+            var l = ans.length - 1;
+
+            for (var i = 0; i < quest.length; i++) {
+              for (var j = l; j > -1; j--) {
+                if (quest[i].id == ans[j].qid) {
+                  Answer a = ans[j];
+                  quest[i].ans.add(a);
+                }
+              }
+            }
+
+            return Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.orange[400],
+                centerTitle: true,
+                title: Text(
+                  "Discussion",
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.normal,
+                      letterSpacing: 2),
+                ),
+              ),
+              body: discussion(quest, ans),
+              bottomNavigationBar: buildBottomNavigationBar(),
+            );
+          }
+          return _buildFetchingDataScreen();
+        });
+
+    //
+  }
+
+  Scaffold _buildFetchingDataScreen() {
     return Scaffold(
-      body: discussion(),
-      bottomNavigationBar: buildBottomNavigationBar(),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching from DB... Please wait'),
+          ],
+        ),
+      ),
     );
   }
 
@@ -59,32 +114,32 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
         onTap: (index) {
           switch (index) {
             case 0:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => FeedNews(widget.user)));
               break;
             case 1:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => DiscussionScreen(widget.user)));
               break;
             case 2:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => AddScreen(widget.user)));
               break;
             case 3:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ReminderScreen(widget.user),
                   ));
               break;
             case 4:
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProfilePage(widget.user),
@@ -94,92 +149,131 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
         });
   }
 
-  ListView discussion() {
-    return ListView(
-      children: <Widget>[
-        //first quest
-        Card(
-            margin: EdgeInsets.fromLTRB(0, 4, 0, 4),
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(38, 10, 38, 15),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    height: 30,
-                    child: Text(
-                      'Why my hamster dont want to eat?',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+  Container discussion(List<Question> quest, List<Answer> ans) {
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [
+        Colors.orange[900],
+        //   Colors.orange[800],
+        Colors.orange[400],
+      ])),
+      child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: quest.length,
+        itemBuilder: (context, index) {
+          return Card(
+              margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 10, 15, 20),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      height: 30,
+                      child: Text(
+                        quest[index].title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
-                  ),
-                  ListTile(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                    leading: Icon(Icons.person),
-                    title: Text('User999'),
-                    subtitle: Text('13 Feb 2020'),
-                    trailing: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.person_add),
+                    ListTile(
+                      title: Text(quest[index].desc),
+                      subtitle: Text(
+                        quest[index].username,
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  Container(
-                    child: Text(
-                      '34 Answers',
-                      textAlign: TextAlign.left,
+                    Divider(
+                      color: Colors.orange,
                     ),
-                  ),
-                  TextField(
-                    style: TextStyle(fontSize: 15.0),
-                    decoration: InputDecoration.collapsed(
-                        border: OutlineInputBorder(), hintText: 'Add Answer..'),
-                  ),
-                ],
-              ),
-            )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: quest[index].ans.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          Divider(
+                        thickness: 1,
+                        color: Colors.black,
+                      ),
+                      itemBuilder: (context, i) {
+                        return Container(
+                          child: ListTile(
+                            onLongPress: () => (quest[index].ans[i].username ==
+                                    widget.user.username)
+                                ? deleteAnswer(index, i, quest[index].ans[i].id)
+                                : null,
+                            title: Text(quest[index].ans[i].answer),
+                            subtitle: Text(
+                              quest[index].ans[i].username,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextField(
+                      controller: _answer[index],
+                      style: TextStyle(fontSize: 15.0),
+                      decoration: InputDecoration.collapsed(
+                          border: OutlineInputBorder(),
+                          hintText: 'Add Answer..'),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    FlatButton(
+                      onPressed: () async {
+                        Answer a = await dataService.createAnswer(
+                            quest[index].id,
+                            _answer[index].text,
+                            widget.user.username);
 
-        Card(
-            margin: EdgeInsets.fromLTRB(0, 4, 0, 4),
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(38, 10, 38, 15),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    height: 30,
-                    child: Text(
-                      'How to tame my male roborovski hamster?',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        setState(() {
+                          quest[index].ans.add(a);
+                        });
+
+                        _answer[index].clear();
+                      },
+                      child: Container(
+                        height: 50,
+                        margin: EdgeInsets.fromLTRB(150, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(25, 15, 25, 0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.blueAccent),
+                        child: Text("Submit",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
                       ),
                     ),
-                  ),
-                  ListTile(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                    leading: Icon(Icons.person),
-                    title: Text('User1234'),
-                    subtitle: Text('1 Jan 2020'),
-                    trailing: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.person_add),
-                    ),
-                  ),
-                  Container(
-                    child: Text(
-                      '4 Answers',
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  TextField(
-                    style: TextStyle(fontSize: 15.0),
-                    decoration: InputDecoration.collapsed(
-                        border: OutlineInputBorder(), hintText: 'Add Answer..'),
-                  ),
-                ],
-              ),
-            )),
-      ],
+                  ],
+                ),
+              ));
+        },
+        separatorBuilder: (BuildContext context, int index) => Divider(
+          color: Colors.transparent,
+        ),
+      ),
     );
+  }
+
+  deleteAnswer(int index, int i, String id) {
+    dataService.deleteAnswer(id: id);
+
+    setState(() {
+      quest[index].ans.removeAt(i);
+      print(quest[index].ans.length);
+    });
+
   }
 }
