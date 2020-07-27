@@ -1,5 +1,4 @@
 import 'package:hamstercare/models/gallery.dart';
-
 import 'hamster.dart';
 import 'reminder.dart';
 
@@ -12,6 +11,7 @@ class User {
   int post;
   int follower;
   int following;
+  String id;
   List<Reminder> reminder;
   List<Hamster> pet;
   List<Gallery> photoUrl;
@@ -27,11 +27,12 @@ class User {
       this.following = 0,
       this.reminder,
       this.pet,
-      this.photoUrl});
+      this.photoUrl,
+      this.id});
 
-  int get postNo {
-    return photoUrl.length;
-  }
+  // int get postNo {
+  //   return photoUrl.length;
+  // }
 
   User.copy(User from)
       : this(
@@ -43,12 +44,13 @@ class User {
             post: from.post,
             follower: from.follower,
             following: from.following,
-            reminder: [...from.reminder],
-            pet: [...from.pet],
-            photoUrl: [...from.photoUrl]);
+            //reminder: [...from.reminder],
+            //pet: [...from.pet],
+            photoUrl: from.photoUrl);
 
   User.fromJson(Map<String, dynamic> json)
       : this(
+<<<<<<< HEAD
             email: json['email'],
             username: json['username'],
             password: json['password'],
@@ -61,6 +63,18 @@ class User {
             // pet: [...json['pet']],
             // photoUrl: [...json['photoUrl']]
             );
+=======
+          email: json['email'],
+          username: json['username'],
+          password: json['password'],
+          bio: json['bio'],
+          profilephoto: json['profilephoto'],
+          post: json['post'],
+          follower: json['follower'],
+          following: json['following'],
+          id: json['id'],
+        );
+>>>>>>> feedback
 
   Map<String, dynamic> toJson() => {
         'email': email,

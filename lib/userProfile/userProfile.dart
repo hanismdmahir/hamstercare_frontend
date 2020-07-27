@@ -3,11 +3,14 @@ import 'package:hamstercare/add/add.dart';
 import 'package:hamstercare/discussion/discussion.dart';
 import 'package:hamstercare/feed/feed.dart';
 import 'package:hamstercare/login/index.dart';
-import 'package:hamstercare/models/mock_feed.dart';
-import 'package:hamstercare/models/mock_user.dart';
+// import 'package:hamstercare/models/mock_feed.dart';
+// import 'package:hamstercare/models/mock_user.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/reminder/reminderscreen.dart';
+import 'package:hamstercare/setting/setting.dart';
 import 'package:hamstercare/userProfile/editHamster.dart';
+//import '../services/auth_services.dart';
+import '../models/user.dart';
 
 final Color darkBlue = Color.fromARGB(255, 18, 32, 47);
 
@@ -20,364 +23,13 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final _bio = TextEditingController();
-  final _username = TextEditingController();
-  final _password = TextEditingController();
-  final _email = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _bio.text = widget.user.bio;
-    _username.text = widget.user.username;
-    _password.text = widget.user.password;
-    _email.text = widget.user.email;
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    _bio.dispose();
-    _username.dispose();
-    _password.dispose();
-    _email.dispose();
-    super.dispose();
-  }
-
-  void _bioState(String bio) {
-    setState(() {
-      User _user = User.copy(widget.user);
-      _user.bio = bio;
-      widget.user.bio = _user.bio;
-    });
-  }
-
-  void _usernameState(String username) {
-    setState(() {
-      User _user = User.copy(widget.user);
-      _user.username = username;
-      widget.user.username = _user.username;
-    });
-  }
-
-  void _passwordState(String password) {
-    setState(() {
-      User _user = User.copy(widget.user);
-      _user.password = password;
-      widget.user.password = _user.password;
-    });
-  }
-
-  void _emailState(String email) {
-    setState(() {
-      User _user = User.copy(widget.user);
-      _user.email = email;
-      widget.user.email = _user.email;
-    });
-  }
-
-  void _deleteImage(int index) {
-    setState(() {
-      widget.user.photoUrl.removeAt(index);
-    });
-  }
-
-  void _deletePet(int index) {
-    setState(() {
-      widget.user.pet.removeAt(index);
-    });
-  }
-
-  int _currentIndex = 4;
-  bool _noti = false;
-  get noti => _noti;
-  set noti(value) => setState(() => _noti = value);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      body: buildListView(),
       bottomNavigationBar: buildBottomNavigationBar(),
-      endDrawer: buildEndDrawer(),
-    );
-  }
-
-  Drawer buildEndDrawer() {
-    return Drawer(
-      child: ListView(
-        children: <Widget>[
-          DrawerHeader(
-            padding: EdgeInsets.zero,
-            child: Container(
-              color: Colors.orange,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    child: CircleAvatar(
-                      radius: 50.0,
-                      backgroundColor: Colors.grey,
-                      backgroundImage: AssetImage(widget.user.profilephoto),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      widget.user.username,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          //profile picture
-          ListTile(
-            leading: Icon(Icons.photo_camera),
-            title: Text('Profile Picture'),
-            trailing: Icon(Icons.edit),
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Profile Picture"),
-                      content: Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.photo_camera,
-                                size: 26,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.photo_library,
-                                size: 26,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Upload'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        FlatButton(
-                            child: Text('Cancel'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            }),
-                      ],
-                    );
-                  });
-            },
-          ),
-          Divider(),
-          //bio
-          ListTile(
-            leading: Icon(Icons.description),
-            title: Text('Bio'),
-            trailing: Icon(Icons.edit),
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("New Bio"),
-                      content: TextField(
-                        controller: _bio,
-                        maxLength: 50,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: widget.user.bio,
-                        ),
-                      ),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Save'),
-                          onPressed: () {
-                            _bioState(_bio.text);
-                            _bio.clear();
-                            Navigator.of(context).pop(widget.user.bio);
-                          },
-                        ),
-                        FlatButton(
-                            child: Text('Cancel'),
-                            onPressed: () {
-                              _bio.clear();
-                              Navigator.of(context).pop(null);
-                            }),
-                      ],
-                    );
-                  });
-            },
-          ),
-          Divider(),
-          //username
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Username'),
-            trailing: Icon(Icons.edit),
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("New Username"),
-                      content: TextField(
-                        controller: _username,
-                        maxLength: 10,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: widget.user.username,
-                        ),
-                      ),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Save'),
-                          onPressed: () {
-                            _usernameState(_username.text);
-                            _username.clear();
-                            Navigator.of(context).pop(widget.user.username);
-                          },
-                        ),
-                        FlatButton(
-                            child: Text('Cancel'),
-                            onPressed: () {
-                              _username.clear();
-                              Navigator.of(context).pop(null);
-                            }),
-                      ],
-                    );
-                  });
-            },
-          ),
-          Divider(),
-          //password
-          ListTile(
-            leading: Icon(Icons.lock),
-            title: Text('Password'),
-            trailing: Icon(Icons.edit),
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("New Password"),
-                      content: TextField(
-                        controller: _password,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: widget.user.password,
-                        ),
-                      ),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Save'),
-                          onPressed: () {
-                            _passwordState(_password.text);
-                            _password.clear();
-                            Navigator.of(context).pop(widget.user.password);
-                          },
-                        ),
-                        FlatButton(
-                            child: Text('Cancel'),
-                            onPressed: () {
-                              _password.clear();
-                              Navigator.of(context).pop(null);
-                            }),
-                      ],
-                    );
-                  });
-            },
-          ),
-          Divider(),
-          //email
-          ListTile(
-            leading: Icon(Icons.mail),
-            title: Text('Email'),
-            trailing: Icon(Icons.edit),
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("New Email"),
-                      content: TextField(
-                        controller: _email,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: widget.user.email,
-                        ),
-                      ),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Save'),
-                          onPressed: () {
-                            _emailState(_email.text);
-                            _email.clear();
-                            Navigator.of(context).pop(widget.user.email);
-                          },
-                        ),
-                        FlatButton(
-                            child: Text('Cancel'),
-                            onPressed: () {
-                              _email.clear();
-                              Navigator.of(context).pop(null);
-                            }),
-                      ],
-                    );
-                  });
-            },
-          ),
-          Divider(),
-          //notification
-          SwitchListTile(
-            activeColor: Colors.orange,
-            value: noti,
-            onChanged: (value) => noti = value,
-            title: Text('Notification'),
-            secondary: Icon(Icons.notifications_active),
-          ),
-          Divider(),
-          //logout button
-          Container(
-            width: 100.0,
-            height: 40.0,
-            child: RaisedButton(
-              color: Colors.orange,
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) => CustomDialog(
-                          title: "Are You Sure Want To Logout?",
-                        ));
-              },
-              child: Text(
-                'Logout',
-                style: TextStyle(
-                  fontSize: 15.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      endDrawer: Setting(widget.user),
     );
   }
 
@@ -399,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
       Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-            buildProfileInfo(),
+            //buildProfileInfo(),
 
             SizedBox(
               height: 10,
@@ -435,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
       height: 110,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: widget.user.pet.length,
+          //itemCount: widget.user.pet.length,
           itemBuilder: (context, index) => Container(
                 margin: EdgeInsets.all(10),
                 child: InkWell(
@@ -454,8 +106,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             FlatButton(
                                 child: Text('Remove'),
                                 onPressed: () {
-                                  _deletePet(index);
-                                  Navigator.of(context).pop(widget.user);
+                                  // _deletePet(index);
+                                  // Navigator.of(context).pop(widget.user);
                                 }),
                           ],
                         );
@@ -508,8 +160,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         FlatButton(
                             child: Text('Delete'),
                             onPressed: () {
-                              _deleteImage(index);
-                              Navigator.of(context).pop(widget.user);
+                              // _deleteImage(index);
+                              // Navigator.of(context).pop(widget.user);
                             }),
                       ],
                     );
@@ -558,7 +210,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            widget.user.postNo.toString(),
+                            widget.user.post.toString(),
                             style: TextStyle(
                                 fontSize: 22.0, fontWeight: FontWeight.bold),
                           ),
@@ -644,7 +296,6 @@ class _ProfilePageState extends State<ProfilePage> {
     return BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
-        currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.photo_library),
@@ -673,38 +324,35 @@ class _ProfilePageState extends State<ProfilePage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => FeedNews(feed, widget.user)));
+                      builder: (context) => FeedNews(widget.user)));
               break;
             case 1:
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DiscussionScreen(mockUser[0])));
+                      builder: (context) => DiscussionScreen(widget.user)));
               break;
             case 2:
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AddScreen(mockUser[0])));
+                      builder: (context) => AddScreen(widget.user)));
               break;
             case 3:
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ReminderScreen(mockUser[0]),
+                    builder: (context) => ReminderScreen(widget.user),
                   ));
               break;
             case 4:
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProfilePage(mockUser[0]),
+                    builder: (context) => ProfilePage(widget.user),
                   ));
               break;
           }
-          setState(() {
-            _currentIndex = index;
-          });
         });
   }
 }

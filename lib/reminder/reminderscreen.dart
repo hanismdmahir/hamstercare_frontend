@@ -1,134 +1,127 @@
 import 'package:flutter/material.dart';
 import 'package:hamstercare/add/add.dart';
 import 'package:hamstercare/discussion/discussion.dart';
-import 'package:hamstercare/models/mock_feed.dart';
+//import 'package:hamstercare/models/mock_feed.dart';
 import 'package:hamstercare/models/reminder.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/reminder/addreminderscreen.dart';
 import 'package:hamstercare/userProfile/userProfile.dart';
 import '../feed/feed.dart';
-import 'package:hamstercare/models/mock_user.dart';
+//import 'package:hamstercare/models/mock_user.dart';
 
-import '../models/mock_user.dart';
+//import '../models/mock_user.dart';
 
 class ReminderScreen extends StatefulWidget {
   final User user;
-
   ReminderScreen(this.user);
 
   @override
   _ReminderScreen createState() => _ReminderScreen();
 }
-  
+
 class _ReminderScreen extends State<ReminderScreen> {
   int _currentIndex = 3;
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //to avoid overflow pixel
       resizeToAvoidBottomInset: false,
       body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Colors.orange[900],
-          //   Colors.orange[800],
-          Colors.orange[400],
-        ])),
+          width: double.infinity,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+            Colors.orange[900],
+            //   Colors.orange[800],
+            Colors.orange[400],
+          ])),
 
-        //should ListView.separated
-        child:ListView(
-          children: <Widget> [
+          //should ListView.separated
+          child: ListView(children: <Widget>[
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                padding: EdgeInsets.only(top: 30, bottom: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Reminder",
-                      style: TextStyle(color: Colors.white, fontSize: 30),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                  ]
-                  ),
+                  padding: EdgeInsets.only(top: 30, bottom: 20),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Reminder",
+                          style: TextStyle(color: Colors.white, fontSize: 30),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                      ]),
                 ),
-                
+
                 //kene buat supaya boleh separate based on incoming tarikh
                 ListView.separated(
-                  shrinkWrap: true,
-                  physics: ScrollPhysics(),
-                  itemBuilder: (BuildContext context, int indexL) {
-                    return Column(
-                      children: <Widget>[
-                        _buildDay(day:'Today'),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: ScrollPhysics(),
-                          itemBuilder:  (BuildContext context, int index) {
-                            return Dismissible(
-                              key: UniqueKey(),
-                              direction: DismissDirection.endToStart,
-                              onDismissed: (direction) {
-                                setState(() {
-                                  widget.user.reminder.removeAt(index);
-                                });
-                                Scaffold.of(context)
-                                .showSnackBar(SnackBar(content: Text("Reminder has been deleted")));
-                              },
-                              background: Container(
-                                color: Colors.red,
-                                child: Align(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.delete,
-                                        color: Colors.white,
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    itemBuilder: (BuildContext context, int indexL) {
+                      return Column(
+                        children: <Widget>[
+                          _buildDay(day: 'Today'),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: ScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                              return Dismissible(
+                                  key: UniqueKey(),
+                                  direction: DismissDirection.endToStart,
+                                  onDismissed: (direction) {
+                                    setState(() {
+                                      widget.user.reminder.removeAt(index);
+                                    });
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                        content:
+                                            Text("Reminder has been deleted")));
+                                  },
+                                  background: Container(
+                                    color: Colors.red,
+                                    child: Align(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.delete,
+                                            color: Colors.white,
+                                          ),
+                                          Text(
+                                            " Delete",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                            textAlign: TextAlign.right,
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        " Delete",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                        textAlign: TextAlign.right,
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                    ],
+                                      alignment: Alignment.centerRight,
+                                    ),
                                   ),
-                                  alignment: Alignment.centerRight,
-                                ),
-                              ),
-
-                              child: _buildCard(widget.user.reminder[index],index)
-                              );
-
-                          },
-                          itemCount: widget.user.reminder.length,
+                                  child: _buildCard(
+                                      widget.user.reminder[index], index));
+                            },
+                            itemCount: widget.user.reminder.length,
                           )
-                      ],
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int indexL) => const Divider(color: Colors.white54), 
-                  itemCount: 1),
+                        ],
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int indexL) =>
+                        const Divider(color: Colors.white54),
+                    itemCount: 1),
               ],
             )
-          ]
-        )
-        
-        
-        
-        
-        
-         /*ListView(children: <Widget>[
+          ])
+
+          /*ListView(children: <Widget>[
           Column(
             children: <Widget>[
               Padding(
@@ -158,13 +151,14 @@ class _ReminderScreen extends State<ReminderScreen> {
             ],
           )
         ]),*/
-      ),
+          ),
       floatingActionButton: FloatingActionButton.extended(
-        
-        onPressed: (){
-          showDialog(context: context,
-          builder:(context)=>AddReminderScreen(widget.user,"add",0))
-          .then((addedReminder) {
+        onPressed: () {
+          showDialog(
+                  context: context,
+                  builder: (context) =>
+                      AddReminderScreen(widget.user, "add", 0))
+              .then((addedReminder) {
             setState(() {
               widget.user.reminder = addedReminder;
             });
@@ -200,20 +194,21 @@ class _ReminderScreen extends State<ReminderScreen> {
     return Card(
       child: ListTile(
         title: Text(r.title),
-        subtitle: Text(r.time.hour.toString()+ ":" + r.time.minute.toString()),
+        subtitle: Text(r.time.hour.toString() + ":" + r.time.minute.toString()),
         trailing: Wrap(
           spacing: 12,
           children: <Widget>[
             InkWell(
-              onTap: () => showDialog(context: context,
-                            builder:(context)=>AddReminderScreen(widget.user,"edit", index))
-                            .then((editedReminder) {
-                              setState(() {
-                                widget.user.reminder = editedReminder;
-                              });
-                            }),
-              child: Icon(IconData(57940, fontFamily: 'MaterialIcons'))
-              ),
+                onTap: () => showDialog(
+                            context: context,
+                            builder: (context) =>
+                                AddReminderScreen(widget.user, "edit", index))
+                        .then((editedReminder) {
+                      setState(() {
+                        widget.user.reminder = editedReminder;
+                      });
+                    }),
+                child: Icon(IconData(57940, fontFamily: 'MaterialIcons'))),
           ],
         ),
       ),
@@ -250,21 +245,38 @@ class _ReminderScreen extends State<ReminderScreen> {
         onTap: (index) {
           switch (index) {
             case 0:
-              Navigator.push(context,MaterialPageRoute(builder: (context) => FeedNews(feed,widget.user)));
-             break;
-             case 1:
-              Navigator.push(context,MaterialPageRoute(builder: (context) => DiscussionScreen(mockUser[0])));
-             break;
-             case 2:
-              Navigator.push(context,MaterialPageRoute(builder: (context) => AddScreen(mockUser[0])));
-             break;
-             case 3:
-             Navigator.push(context,MaterialPageRoute(builder: (context) => ReminderScreen(mockUser[0]),));
-             break;
-             case 4:
-             Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage(mockUser[0]),));
-             break;
-          }});
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FeedNews(widget.user)));
+              break;
+            case 1:
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DiscussionScreen(widget.user)));
+              break;
+            case 2:
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddScreen(widget.user)));
+              break;
+            case 3:
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ReminderScreen(widget.user),
+                  ));
+              break;
+            case 4:
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(widget.user),
+                  ));
+              break;
+          }
+        });
   }
 }
-
