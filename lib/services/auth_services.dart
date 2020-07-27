@@ -39,11 +39,11 @@ class UserDataService {
       'username': username,
       'email': email,
       'password': password,
-      'follower': null,
-      'following': null,
-      'post': null,
-      'bio': null,
-      'profilephoto': null
+      'follower': 0,
+      'following': 0,
+      'post': 0,
+      'bio': '',
+      'profilephoto': ''
     });
     return User.fromJson(json);
   }
