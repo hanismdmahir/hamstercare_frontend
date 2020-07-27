@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hamstercare/add/choose_photo.dart';
 import 'package:hamstercare/models/gallery.dart';
 import 'package:hamstercare/models/user.dart';
 import 'package:hamstercare/services/feedback_service.dart';
@@ -12,15 +13,23 @@ class UploadPhoto extends StatefulWidget {
 }
 
 class _UploadPhotoState extends State<UploadPhoto> {
+  void _navigate(index) async {
+    final returnData = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Choose(),
+      ),
+    );
+
+    if (returnData != null) {
+      setState(() => photo = returnData);
+    }
+  }
+
   final TextEditingController _controller = TextEditingController();
   final dataService = FeedbackDataService();
-  //final dataService = FeedbackDataService();
   Gallery theFeed;
-  Color _color = Colors.white;
-  Color _text = Colors.orange;
-
-  //final TextEditingController _controller;
-  //final FeedbackDataService dataService;
+  String photo;
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +38,6 @@ class _UploadPhotoState extends State<UploadPhoto> {
         children: <Widget>[
           Center(
             child: Container(
-              child: Center(
-                child: RaisedButton(
-                  onPressed: () {},
-                  child: Icon(Icons.add_a_photo),
-                  color: Colors.white,
-                ),
-              ),
               height: 250,
               width: 250,
               margin: EdgeInsets.only(top: 20, bottom: 10),
@@ -46,45 +48,21 @@ class _UploadPhotoState extends State<UploadPhoto> {
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  IconButton(
+                    onPressed: () {
+                      _navigate(context);
+                    },
+                    icon: Icon(
+                      Icons.photo_library,
+                      size: 26,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              RaisedButton(
-                //focusColor: Colors.blue,
-                color: _color,
-                onPressed: () {
-                  setState(() {
-                    _color = Colors.orange;
-                    _text = Colors.white;
-                  });
-                },
-                child: Text(
-                  'Hachi',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: _text,
-                  ),
-                ),
-              ),
-              RaisedButton(
-                color: _color,
-                onPressed: () {
-                  setState(() {
-                    _color = Colors.orange;
-                    _text = Colors.white;
-                  });
-                },
-                child: Text(
-                  'Horlick',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: _text,
-                  ),
-                ),
-              ),
-            ],
           ),
           Container(
             margin: EdgeInsets.all(40),
@@ -104,7 +82,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
                 theFeed = await dataService.createGallery(
                   userName: widget.user.username,
                   userImage: widget.user.profilephoto,
-                  feedImage: widget.user.profilephoto,
+                  feedImage: photo,
                   feedTime: DateTime.now().toString(),
                   feedText: _controller.text,
                   like: 5,
