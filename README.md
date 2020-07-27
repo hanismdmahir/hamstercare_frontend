@@ -9,7 +9,7 @@
  Fatin Hanani binti Kamis (A17CS0235)
  Hanis binti Md Mahir (A17CS0050)
 
- Synopsis: Hamster Care will provide the platform for hamster owners to share their  knowledge and pet with others. Newbies that are interested in taking care of the  hamster are welcome to the community to gain the knowledge from this application.   Hamster Care provides a discussion platform for their users to communicate with  each other and give cloud storage to save their hamsterâ€™s picture as a gallery.  
+ Synopsis: Hamster Care will provide the platform for hamster owners to share their  knowledge and pet with others. Newbies that are interested in taking care of the  hamster are welcome to the community to gain the knowledge from this application.   Hamster Care provides a discussion platform for their users to communicate with  each other and give cloud storage to save their hamster’s picture as a gallery.  
  
  Prototype 1:
 
@@ -24,9 +24,9 @@
  Final Submission Project:
 
  Video Final Project URL 
- App Walkthrough:   
+ App Walkthrough: https://youtu.be/M7i3T1OgFfA
  Authentication present by Fatin Hanani: https://youtu.be/9Grrjanr0Rg 
- Backend present by Hanis: 
+ Backend present by Hanis: https://youtu.be/9PLhBQsfNB8
  Architecture present by Anis Fatin Nabila: https://youtu.be/LOvkg_gzweI 
  State Management present by Atiqah Aqilah: https://youtu.be/3tU8KUWWCC0
  		
